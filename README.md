@@ -41,15 +41,23 @@ Build Setup Instructions:
   
    Once the above directories have been removed, re-install the game. 
   
-3. Download/Install/Start [Unity 2019.4.26f.1](https://unity.com/releases/editor/whats-new/2019.4.26)
-   * If installing Unity for the first time, once installed, it will tell you it requires a licence and that to get one you need to install [Unity Hub](https://unity.com/download). 
+3. Download/Install/Start [Unity 2019.4.26f1](https://unity.com/releases/editor/whats-new/2019.4.26)
+   * If installing Unity for the first time, once installed, it will tell you it requires a license and that to get one you need to install [Unity Hub](https://unity.com/download). 
        - Hit the "Download for Windows" button
        - Run the "UnityHubSetup.exe" that you downloaded and then Run Unity Hub when install is complete.
        - Unity Hub requires an account. The account is free, but you have to supply an email address
-   * Open the project associated with this git clone project. 
-   * If you see warning about project being made with older version of Unity (4.20), Change the version and hit continue when it presents the "Non-Matching Editor Installation" warning. 
+       - After Creating an account it will likely attempt to download the latest Unity Editor (Note the year in the download). Select the option to choose another version and point it to that. IE: **"C:\Program Files\Unity\Editor\Unity.exe**
+       - It will prompt you to get a license and ask you to agree to the terms of service. Once you agree, You can close Unity Hub and run Unity 2019.4.26f.1 using the Start Menu.
+   * Open the project associated with this git clone project.
+       - (From Unity) Open ->  Find and open the "NPCCustomPortraitEnabler" directory. You should see the Assets folder when you click Open
+       - A Warning will likely pop up. Scroll down to the "Installs" Area and check the radio box next to 2019.4.26f1
+       - Click _**Open with 2019.4.26f1_**
+       - When it prompts you to change editor version, select _**Change Version**_
+       - Click _**Continue**_ if you receive a second warning (It can take a while, so be patient)
+       - You may receive ... yet another... check. Click _**Skip New Version**_
 4. Modification Tools -> Setup Project -> Point to install dir of WOTR
-   - **.../steam/steamapps/common/Pathfinder Second Adventure**  _(for Steam)_
+   * **.../steam/steamapps/common/Pathfinder Second Adventure**  _(for Steam)_
+       - Go to the common directory, highlight "Pathfinder Second Adventure", and click _**Select Folder**_
 5. When Importing is done:
    - If it prompts you for "API Update", select "No Thanks"
    - File -> Exit -> Re-Open the project
