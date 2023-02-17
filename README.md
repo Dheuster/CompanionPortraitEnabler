@@ -22,9 +22,9 @@ Build Setup Instructions:
    ```
    
 
-2. Install Pathfinder : Wrath of the Righteous (May require purchase if you don't own it. I recommend [Steam](https://store.steampowered.com/))
+2. Install/Reinstall Pathfinder : Wrath of the Righteous (May require purchase if you don't own it. I recommend [Steam](https://store.steampowered.com/))
 
-   You say... but I already have it installed. It doesn't matter. Uninstall it and re-install it. Why? Because you want to make sure you don't have any garbage from previous patches or modding attempts sitting around. If you've had the game installed a long time (say over a year), there is a good chance the steps below wont work because they will try to import old artifacts from previous versions of the game that weren't cleaned up as part of the patching process. So unless you installed the game within the last week, most users should make sure they have a fresh, clean install.
+   You say... but I already have it installed. It doesn't matter. Uninstall it and re-install it. Why? Because you want to make sure you don't have any garbage from previous patches or modding attempts sitting around. If you've had the game installed a long time (say over a year), there is a good chance the steps below wont work because they will try to import old artifacts from previous versions of the game that weren't cleaned up as part of the patching process and create conflicts. So unless you installed the game within the last week, most users should make sure they have a fresh, clean install.
    	 
    If you setup/downloaded any Portraits or other Modifications, you may wish to back them up:
 
