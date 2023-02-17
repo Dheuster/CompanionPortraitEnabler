@@ -1,12 +1,26 @@
 Build Setup Instructions:
 ===============
-These directions are posted at: https://github.com/Dheuster/NPCCustomPortraitEnabler. Note that these directions are not for installation and usage of the mod in-game. They are for setting up the build environment to make use of the mod's source code (To further enhance it, etc..)
+   These directions are posted at: https://github.com/Dheuster/NPCCustomPortraitEnabler. Note that these directions are not for installation and usage of the mod in-game. They are for setting up the build environment to make use of the mod's source code (To further enhance it, etc..)
 
 1. Clone NPCCustomPortraitEnabler:
 
-```
-    git clone https://github.com/Dheuster/NPCCustomPortraitEnabler.git
-```
+   This mod is managed with Git, so if you do not have it, you will need to install git. I recommend [Git for Windows](http://www.gitforwindows.org). I also recommend [TortoiseGit](http://www.tortoisegit.org) (Install after git).
+
+   * **Via TortoiseGit** : Create a folder where you want the mod to live, right click the background and select _**Git Clone**_ . In the url field of the window that pops up, enter: 
+
+   ```
+       https://github.com/Dheuster/NPCCustomPortraitEnabler.git
+   ```
+
+      - Press _**OK**_ and then _**Close**_
+
+
+   * **Via Git command line**: Use "cd" to change to the directory you want the source code to live, then type:
+      
+   ```
+      git clone https://github.com/Dheuster/NPCCustomPortraitEnabler.git
+   ```
+   
 
 2. Install Pathfinder : Wrath of the Righteous (May require purchase if you don't own it. I recommend [Steam](https://store.steampowered.com/))
 
@@ -48,27 +62,27 @@ These directions are posted at: https://github.com/Dheuster/NPCCustomPortraitEna
 
 10. In the Location Bar, enter: (I refer to this as the WOTR_CONFIG_DIR)
 
-```
-    %LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous
-```
+   ```
+       %LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous
+   ```
      
 11. If all is well, you should see folders\files that look similar to: 
 
-```
-    > Saved Games
-    > Screenshots
-    > Unity
-    combatLog.txt
-    GameLog.txt
-    GameLogFull.txt
-    general_settings.json
-    Player.log
+   ```
+       > Saved Games
+       > Screenshots
+       > Unity
+       combatLog.txt
+       GameLog.txt
+       GameLogFull.txt
+       general_settings.json
+       Player.log
 
-    (">" <- indicates folder/directory)
-```
-   - You might also see a "Portraits" directory if you have installed custom portraits in the past. 
-   - You might also see a "Modifications" directory if you have installed mods before.
-   - You might also see a "OwlcatModificationManagerSettings.json" file if you have installed mods before. 
+       (">" <- indicates folder/directory)
+   ```
+      - You might also see a "Portraits" directory if you have installed custom portraits in the past. 
+      - You might also see a "Modifications" directory if you have installed mods before.
+      - You might also see a "OwlcatModificationManagerSettings.json" file if you have installed mods before. 
 
 12. _(a)_ If you **do NOT see** OwlcatModificationManagerSettings.json file, create it:
    - Right click "general_settings.json" and select "Copy"
@@ -79,22 +93,22 @@ These directions are posted at: https://github.com/Dheuster/NPCCustomPortraitEna
       - Select all (CTRL+A works in most windows apps)
       - Delete (Hit the delete key)
       - Paste the following:
-```json5
-    {
-        "EnabledModifications": ["NPCCustomPortraitEnabler"]
-    }
-```
-   - Save the file 
+      ```json5
+          {
+              "EnabledModifications": ["NPCCustomPortraitEnabler"]
+          }
+      ```
+      - Save the file 
 
 12. _(b)_ If you **do see** OwlcatModificationManagerSettings, update it:
    - Double click the file "OwlcatModificationManagerSettings" to edit
    - Add "NPCCustomPortraitEnabler" to the list of enabled 
        modifications. It should look something like:
-```json5
-    {
-        "EnabledModifications": ["<MOD1>","<MOD2>","NPCCustomPortraitEnabler"]
-    }
-```
+   ```json5
+       {
+           "EnabledModifications": ["<MOD1>","<MOD2>","NPCCustomPortraitEnabler"]
+       }
+   ```
 
 13. If you do NOT see a Modifications Folder you will need to create it:
    - Right click the background and selecting "New -> Folder". 
@@ -106,52 +120,52 @@ These directions are posted at: https://github.com/Dheuster/NPCCustomPortraitEna
 
 15. Confirm: In the Location Bar, enter:
 
-```
-    %LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous
-```
+   ```
+       %LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous
+   ```
 
    If all is well, you should see something like this:
 
-```
-    > Modifications
-    > Portraits
-    > Saved Games
-    > Screenshots
-    > Unity
-    combatLog.txt
-    GameLog.txt
-    GameLogFull.txt
-    general_settings.json
-    OwlcatModificationManagerSettings.json
-    Player.log
-```
+   ```
+       > Modifications
+       > Portraits
+       > Saved Games
+       > Screenshots
+       > Unity
+       combatLog.txt
+       GameLog.txt
+       GameLogFull.txt
+       general_settings.json
+       OwlcatModificationManagerSettings.json
+       Player.log
+   ```
 
 16. Install the mod:
 
-    You can either exctract the zip file to the Modifictions Folder you created above, or you can copy the NPCCustomPortraits folder created under the build directory over. The zip file is just a pre-archived version of that folder and its contents. 
+   You can either exctract the zip file to the Modifictions Folder you created above, or you can copy the NPCCustomPortraits folder created under the build directory over. The zip file is just a pre-archived version of that folder and its contents. 
  
-    Extract or Copy GIT_CLONE/build/NPCCustomPortraitEnabler 
+   Extract or Copy GIT_CLONE/build/NPCCustomPortraitEnabler 
 	
-    -- to -- 
+   -- to -- 
 
-    WOTR_CONFIG_DIR/Modifications
+   WOTR_CONFIG_DIR/Modifications
 	
-    Under the modifications directory you should now see:
+   Under the modifications directory you should now see:
 	
-```
-    > Modifications
-        > NPCCustomPortraitEnabler
-    > Portraits
-    > Saved Games
-    > Screenshots
-    > Unity
-    combatLog.txt
-    GameLog.txt
-    GameLogFull.txt
-    general_settings.json
-    OwlcatModificationManagerSettings.json
-    Player.log
-```
+   ```
+       > Modifications
+           > NPCCustomPortraitEnabler
+       > Portraits
+       > Saved Games
+       > Screenshots
+       > Unity
+       combatLog.txt
+       GameLog.txt
+       GameLogFull.txt
+       general_settings.json
+       OwlcatModificationManagerSettings.json
+       Player.log
+   ```
     	
 Usage
 ========
@@ -166,19 +180,19 @@ In Development
 
   - I'm working on a system where a characters portrait folder can have a json file with a rule and then a subfolder named after the json file:
 
-```
-    /npcPortraits/SomeNPC/Fullsize.png
-    /npcPortraits/SomeNPC/Medium.png
-    /npcPortraits/SomeNPC/Small.png
-    /npcPortraits/SomeNPC/rule_01.json
-    /npcPortraits/SomeNPC/rule_01/Fullsize.png
-    /npcPortraits/SomeNPC/rule_01/Medium.png
-    /npcPortraits/SomeNPC/rule_01/Small.png
-    /npcPortraits/SomeNPC/rule_02.json
-    /npcPortraits/SomeNPC/rule_02/Fullsize.png
-    /npcPortraits/SomeNPC/rule_02/Medium.png
-    /npcPortraits/SomeNPC/rule_02/Small.png
-```
+   ```
+       /npcPortraits/SomeNPC/Fullsize.png
+       /npcPortraits/SomeNPC/Medium.png
+       /npcPortraits/SomeNPC/Small.png
+       /npcPortraits/SomeNPC/rule_01.json
+       /npcPortraits/SomeNPC/rule_01/Fullsize.png
+       /npcPortraits/SomeNPC/rule_01/Medium.png
+       /npcPortraits/SomeNPC/rule_01/Small.png
+       /npcPortraits/SomeNPC/rule_02.json
+       /npcPortraits/SomeNPC/rule_02/Fullsize.png
+       /npcPortraits/SomeNPC/rule_02/Medium.png
+       /npcPortraits/SomeNPC/rule_02/Small.png
+   ```
 
    The rule files would describe conditions and when those conditions are met, the associated subfolder would be used instead. Rules would evaluate alphanumerically and the first rule to evaluate to true would win. This would allow for things like... portraits that change based on what the NPC is wearing or what class options they choose leveling up. So far I've only been able to get portraits to update after a loading screen, so real-time updates like "Use this portrait for this conversation" or "Change the portrait as they take more damage" may not be possible. We will see.  If polymorph spells can change the  portrait mid-combat, there may be hope. But I haven't played the game enough yet to know what is possible. 
 
