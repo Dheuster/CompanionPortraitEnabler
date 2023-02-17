@@ -4,166 +4,157 @@ These directions are posted at: https://github.com/Dheuster/NPCCustomPortraitEna
 
 1. Clone NPCCustomPortraitEnabler:
 
-        ```
-		git clone https://github.com/Dheuster/NPCCustomPortraitEnabler.git
-        ```
+```
+    git clone https://github.com/Dheuster/NPCCustomPortraitEnabler.git
+```
 
-2. Make sure your WOTR is patched and up to date. I recommend uninstalling 
-   it and re-installing it to make sure you don't have any garbage from 
-   previous modding attempts. When you uninstall make sure that following
-   directories don't exist:
+2. Make sure your WOTR is patched and up to date. I recommend uninstalling it and re-installing it to make sure you don't have any garbage from previous modding attempts. When you uninstall make sure that following directories don't exist:
    	 
-   If you downloaded any Portraits or Modifications, you may wish to back them 
-   up:
+   If you downloaded any Portraits or Modifications, you may wish to back them up:
 
-  * **"%LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Portraits"**
-  * **"%LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Modifications"**
-  * **"%LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Saves"**
+   - **%LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Portraits**
+   - **%LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Modifications"**
+   - **%LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous\Saves**
 
-  Once anything you wish to backup has been saved off,  make sure the following directories do not exist:
+   Once anything you wish to backup has been saved off,  make sure the following directories do not exist:
 
-  * **".../steam/steamapps/common/Pathfinder Second Adventure"**
-  * **"%LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous"**
+   - **.../steam/steamapps/common/Pathfinder Second Adventure**
+   - **%LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous**
 
-  If the computer won't remove the directory because it is "in use by another process", you may have 
-  to restart the computer. 
+   If the computer won't remove the directory because it is "in use by another process", you may have to restart the computer. 
   
-  Once the above directories have been removed, re-install the game from Steam or where ever you purchased it. 
+   Once the above directories have been removed, re-install the game from Steam or where ever you purchased it. 
   
-3. Start Unity 2019.4.26f.1
+3. Download/Install/Start [Unity 2019.4.26f.1](https://unity.com/releases/editor/whats-new/2019.4.26)
    * Open the project associated with this git clone project. 
-   * If you see warning about project being made with older version of Unit (4.20), Change Version (Hit COntinue when it presents "Non-Matching Editor Installation" warning). 
+   * If you see warning about project being made with older version of Unity (4.20), Change the version and hit continue when it presents the "Non-Matching Editor Installation" warning. 
 4. Modification Tools -> Setup Project -> Point to install dir of WOTR
-   * _**.../steam/steamapps/common/Pathfinder Second Adventure" for Steam**
+   - **.../steam/steamapps/common/Pathfinder Second Adventure" for Steam**
 5. When Importing is done:
-   * If it prompts you for "API Update", select "No Thanks"
-   * File -> Exit -> Re-Open the project
+   - If it prompts you for "API Update", select "No Thanks"
+   - File -> Exit -> Re-Open the project
 6. Modificiation Tools -> Setup Render Pipeline.
-   * In the "Scene" Tab, Make sure the first pull-down is set to "Render Paths"
-   * _(Make sure it isn't set to any of the Shaded modes or UNITY will constantly spam the console with error messages everytime the mouse hovers over the  rendered area of the tool.)
-   * File -> Exit and Then Re-Open the project
+   - In the "Scene" Tab, Make sure the first pull-down is set to "Render Paths"
+   - _(Make sure it isn't set to any of the Shaded modes or UNITY will constantly spam the console with error messages everytime the mouse hovers over the  rendered area of the tool.)_
+   - File -> Exit and Then Re-Open the project
 7. Upon restart, use **Modification Tools -> Build**
-   * You will be prompted for which project to build
-   * Select NPCCustomPortraitEnabler. 
+   - You will be prompted for which project to build
+   - Select NPCCustomPortraitEnabler. 
 8. Build product can be found under the "build" directory (Where-ever you git cloned the project)
 
 9. Start -> Windows System -> File Explorer 
 
 10. In the Location Bar, enter: (I refer to this as the WOTR_CONFIG_DIR)
 
-    ```
+```
     %LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous
-	```
+```
      
 11. If all is well, you should see folders\files that look similar to: 
 
-    ```
-       > Saved Games
-       > Screenshots
-       > Unity
-       combatLog.txt
-       GameLog.txt
-       GameLogFull.txt
-       general_settings.json
-       Player.log
+```
+    > Saved Games
+    > Screenshots
+    > Unity
+    combatLog.txt
+    GameLog.txt
+    GameLogFull.txt
+    general_settings.json
+    Player.log
 
-     (">" <- indicates folder/directory)
-    ```
+    (">" <- indicates folder/directory)
+```
+   - You might also see a "Portraits" directory if you have installed custom portraits in the past. 
+   - You might also see a "Modifications" directory if you have installed mods before.
+   - You might also see a "OwlcatModificationManagerSettings.json" file if you have installed mods before. 
 
-     * You might also see a "Portraits" directory if you have installed custom portraits in the past. 
-     * You might also see a "Modifications" directory if you have installed mods before.
-     * You might also see a "OwlcatModificationManagerSettings.json" file if you have installed mods before. 
+12. _(a)_ If you **do NOT see** OwlcatModificationManagerSettings.json file, create it:
 
-12. (a) If you do NOT see OwlcatModificationManagerSettings.json file, create it:
-
-     * Right click "general_settings.json" and select "Copy"
-     * Right click the background and select "Paste"
-     * Rename the copied file to "OwlcatModificationManagerSettings"
-     * Double click "OwlcatModificationManagerSettings" to edit
-     * Within Notepad (or whatever editor you have configured)
-       - Select all (CTRL+A works in most windows apps)
-       - Delete (Hit the delete key)
-       - Paste the following:
-    ```
+   - Right click "general_settings.json" and select "Copy"
+   - Right click the background and select "Paste"
+   - Rename the copied file to "OwlcatModificationManagerSettings"
+   - Double click "OwlcatModificationManagerSettings" to edit
+   - Within Notepad (or whatever editor you have configured)
+      - Select all (CTRL+A works in most windows apps)
+      - Delete (Hit the delete key)
+      - Paste the following:
+```json5
     {
         "EnabledModifications": ["NPCCustomPortraitEnabler"]
     }
-    ```
-     * Save the file 
+```
+   - Save the file 
 
-
-13. (b) If you already have OwlcatModificationManagerSettings, update it:
+12. _(b)_ If you **do see** OwlcatModificationManagerSettings, update it:
 
      * Double click the file "OwlcatModificationManagerSettings" to edit
      * Add "NPCCustomPortraitEnabler" to the list of enabled 
        modifications. It should look something like:
-    ```
+```json5
     {
         "EnabledModifications": ["<MOD1>","<MOD2>","NPCCustomPortraitEnabler"]
     }
-    ```
+```
 
-14. If you do NOT see a Modifications Folder you will need to create it:
+13. If you do NOT see a Modifications Folder you will need to create it:
+   - Right click the background and selecting "New -> Folder". 
+   - Name the New Folder "Modifications"
 
-     * Right click the background and selecting "New -> Folder". 
-     * Name the New Folder "Modifications"
+14. If you do NOT see a Portraits Folder, you should create it:
+   - Right click the background and selecting "New -> Folder". 
+   - Name the New Folder "Portraits"
 
-15. If you do NOT see a Portraits Folder, you should create it:
+15. Confirm: In the Location Bar, enter:
 
-     * Right click the background and selecting "New -> Folder". 
-     * Name the New Folder "Portraits"
-
-16. Confirm: In the Location Bar, enter:
-
-    ```
+```
     %LocalAppData%/../LocalLow\Owlcat Games\Pathfinder Wrath Of The Righteous
-	```
+```
 
-     If all is well, you should see something like this:
+   If all is well, you should see something like this:
 
-    ```
-       > Modifications
-       > Portraits
-       > Saved Games
-       > Screenshots
-       > Unity
-       combatLog.txt
-       GameLog.txt
-       GameLogFull.txt
-       general_settings.json
-       OwlcatModificationManagerSettings.json
-       Player.log
-	```
+```
+    > Modifications
+    > Portraits
+    > Saved Games
+    > Screenshots
+    > Unity
+    combatLog.txt
+    GameLog.txt
+    GameLogFull.txt
+    general_settings.json
+    OwlcatModificationManagerSettings.json
+    Player.log
+```
 
-17. Copy the generated build directory:
+16. Copy the generated build directory:
 
     GIT_CLONE/build/NPCCustomPortraitEnabler 
 	
-	to 
+    -- to -- 
 
     WOTR_CONFIG_DIR/Modifications
 	
-	Under the modifications directory you should now see:
+    Under the modifications directory you should now see:
 	
-	```
-       > Modifications
-	     > NPCCustomPortraitEnabler
-       > Portraits
-       > Saved Games
-       > Screenshots
-       > Unity
-       combatLog.txt
-       GameLog.txt
-       GameLogFull.txt
-       general_settings.json
-       OwlcatModificationManagerSettings.json
-       Player.log
-	```
+```
+    > Modifications
+        > NPCCustomPortraitEnabler
+    > Portraits
+    > Saved Games
+    > Screenshots
+    > Unity
+    combatLog.txt
+    GameLog.txt
+    GameLogFull.txt
+    general_settings.json
+    OwlcatModificationManagerSettings.json
+    Player.log
+```
     	
 Testing and Development
 ========
 
-_ **TODO**
+_**TODO**_
 
 * Start Game
 * Exit Game
@@ -173,22 +164,6 @@ _ **TODO**
 * Now when you run the game, logDebug and logAlways methods within the mod code will output to: WOTR_CONFIG_DIR/GameLogFull.txt
 * The main tool I used to view into the game code and expose what methods/interfaces were available: https://github.com/dnSpy/dnSpy . There may be some official documentation somewhere, but I haven't found it.
   
-When you 
-
-5. Test your modification
-    * Copy **Build/your-modification-name** folder to **_user-folder_/AppData/LocalLow/Owlcat Games/Pathfinder Wrath Of The Righteous/Modifications**
-    * Add your modification to **_user-folder_/AppData/LocalLow/Owlcat Games/Pathfinder Wrath Of The Righteous/OwlcatModificationManagerSettings.json**
-        ```json5
-        {
-            "EnabledModifications": ["your-modification-name"] // use name from the manifest(!), not folder name
-        }
-        ```
-    * Before patch 1.1.1 there was a typo in filename used to store settings: _OwlcatModificationMana**n**gerSettings.json_. This is now corrected, please use the correct filename (the game will still find file under the old name).
-    * Run Pathfinder: Wrath of the Righteous
-
-5. Publish build results from **Build** folder
-    * _TODO_
-
 Creating Your own Mod
 ========
 
