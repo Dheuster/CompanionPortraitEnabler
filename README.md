@@ -42,6 +42,10 @@ Build Setup Instructions:
    Once the above directories have been removed, re-install the game. 
   
 3. Download/Install/Start [Unity 2019.4.26f.1](https://unity.com/releases/editor/whats-new/2019.4.26)
+   * If installing Unity for the first time, once installed, it will tell you it requires a licence and that to get one you need to install [Unity Hub](https://unity.com/download). 
+       - Hit the "Download for Windows" button
+       - Run the "UnityHubSetup.exe" that you downloaded and then Run Unity Hub when install is complete.
+       - Unity Hub requires an account. The account is free, but you have to supply an email address
    * Open the project associated with this git clone project. 
    * If you see warning about project being made with older version of Unity (4.20), Change the version and hit continue when it presents the "Non-Matching Editor Installation" warning. 
 4. Modification Tools -> Setup Project -> Point to install dir of WOTR
