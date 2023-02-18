@@ -46,7 +46,7 @@ Build Setup Instructions:
        - Hit the "Download for Windows" button
        - Run the "UnityHubSetup.exe" that you downloaded and then Run Unity Hub when install is complete.
        - Unity Hub requires an account. The account is free, but you have to supply an email address
-       - After Creating an account it will likely attempt to download the latest Unity Editor (Note the year in the download). Select the option to choose another version and point it to that. IE: **"C:\Program Files\Unity\Editor\Unity.exe**
+       - After Creating an account it will likely attempt to download the latest Unity Editor (Note the year in the download). Select the option to choose another version and point it to the one you downloaded above. IE: **"C:\Program Files\Unity\Editor\Unity.exe**
        - It will prompt you to get a license and ask you to agree to the terms of service. Once you agree, You can close Unity Hub and run Unity 2019.4.26f.1 using the Start Menu.
    * Open the project associated with this git clone project.
        - (From Unity) Open ->  Find and open the "NPCCustomPortraitEnabler" directory. You should see the Assets folder when you click Open
@@ -156,11 +156,11 @@ Build Setup Instructions:
 
    You can either exctract the zip file to the Modifictions Folder you created above, or you can copy the NPCCustomPortraits folder created under the build directory over. The zip file is just a pre-archived version of that folder and its contents. 
  
-   Extract or Copy GIT_CLONE/build/NPCCustomPortraitEnabler 
+   Extract or Copy NPCCustomPortraitEnabler/build/NPCCustomPortraitEnabler 
 	
    -- to -- 
 
-   WOTR_CONFIG_DIR/Modifications
+   %LocalAppData%/../LocalLow/Owlcat Games/Pathfinder Wrath Of The Righteous/Modifications
 	
    Under the modifications directory you should now see:
 	
@@ -181,10 +181,14 @@ Build Setup Instructions:
     	
 Usage
 ========
-   _**TODO**_
-   - Start the game up with the mod installed and Load a save game
-   - Exit the game and visit your Portraits directory
-   - inside you will now find the sub-directory npcPortraits and within will be the names of the NPCs (Or at least the ones that the game attempted to load when you loaded up your game). Place standard Portrait files in those directories and when you next play the game, your companions portaits will be replaced by the new files. (3 files required for a portrait. Fullsize.png, Medium.png and Small.png. Size matters. If the dimensions are not correct, the game will not load them. _TODO: List dimension size requirements here..._
+1. Start the game up with the mod installed and Load a save game
+2. Exit the game and visit your Portraits directory
+   * inside you will now find the sub-directory _**πpcPortraits**_ . Within will be the names of the NPCs that the game attempted to load when you loaded your save game. 
+   * to replace someones portrait, place 3 portrait files in the directory with their name:
+       - _**Fullength.png**_ must be _**692x1024**_ (692 pixels high by 1024 pixels wide)
+       - _**Medium.png**_ must be _**330x432**_ 
+       -  _**Small.png**_ must be _**185x242**_
+3. Remember, a number of excellent [portrait packs](https://www.nexusmods.com/pathfinderkingmaker/mods/categories/3/) exist on sites like nexusmods. They are normally geared to provide options for the protagonist, but with this mod you can custom pretty much anyone and everyone in the game.
 
 In Development
 ========
@@ -193,17 +197,17 @@ In Development
   - I'm working on a system where a characters portrait folder can have a json file with a rule and then a subfolder named after the json file:
 
    ```
-       /npcPortraits/SomeNPC/Fullsize.png
-       /npcPortraits/SomeNPC/Medium.png
-       /npcPortraits/SomeNPC/Small.png
-       /npcPortraits/SomeNPC/rule_01.json
-       /npcPortraits/SomeNPC/rule_01/Fullsize.png
-       /npcPortraits/SomeNPC/rule_01/Medium.png
-       /npcPortraits/SomeNPC/rule_01/Small.png
-       /npcPortraits/SomeNPC/rule_02.json
-       /npcPortraits/SomeNPC/rule_02/Fullsize.png
-       /npcPortraits/SomeNPC/rule_02/Medium.png
-       /npcPortraits/SomeNPC/rule_02/Small.png
+       Portraits/πpcPortraits/SomeNPC/Fullsize.png
+       Portraits/πpcPortraits/SomeNPC/Medium.png
+       Portraits/πpcPortraits/SomeNPC/Small.png
+       Portraits/πpcPortraits/SomeNPC/rule_01.json
+       Portraits/πpcPortraits/SomeNPC/rule_01/Fullsize.png
+       Portraits/πpcPortraits/SomeNPC/rule_01/Medium.png
+       Portraits/πpcPortraits/SomeNPC/rule_01/Small.png
+       Portraits/πpcPortraits/SomeNPC/rule_02.json
+       Portraits/πpcPortraits/SomeNPC/rule_02/Fullsize.png
+       Portraits/πpcPortraits/SomeNPC/rule_02/Medium.png
+       Portraits/πpcPortraits/SomeNPC/rule_02/Small.png
    ```
 
    The rule files would describe conditions and when those conditions are met, the associated subfolder would be used instead. Rules would evaluate alphanumerically and the first rule to evaluate to true would win. This would allow for things like... portraits that change based on what the NPC is wearing or what class options they choose leveling up. So far I've only been able to get portraits to update after a loading screen, so real-time updates like "Use this portrait for this conversation" or "Change the portrait as they take more damage" may not be possible. We will see.  If polymorph spells can change the  portrait mid-combat, there may be hope. But I haven't played the game enough yet to know what is possible. 
