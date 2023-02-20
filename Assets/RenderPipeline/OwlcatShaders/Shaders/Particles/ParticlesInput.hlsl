@@ -1,10 +1,10 @@
 #ifndef OWLCAT_PARTICLES_INPUT_INCLUDED
 #define OWLCAT_PARTICLES_INPUT_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Packing.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/CommonMaterial.hlsl"
 
 TEXTURE2D(_MainTex1); SAMPLER(sampler_MainTex1);
 TEXTURE2D(_ColorAlphaRamp); SAMPLER(sampler_ColorAlphaRamp);
@@ -182,9 +182,9 @@ inline VaryingsUv GetVaryingsUv(float4 uv, float particleID)
 	VaryingsUv result = (VaryingsUv)0;
 
 	result.texSheetUv = uv.xy;
-	// В случае, если активирована текстурная анимация в ParticleSystem
-	// ParticleMaterialController должен переключить uvChannelMask = UV0
-	// И добавить UV2 в VertexStreams, чтобы была возможность восстановить оригинальные не анимированные UV
+	// пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ ParticleSystem
+	// ParticleMaterialController пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ uvChannelMask = UV0
+	// пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ UV2 пїЅ VertexStreams, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ UV
 	result.originalUv = _TexSheetEnabled ? uv.zw : uv.xy;
 
 	result.tex0Uv = TRANSFORM_TEX_SCROLL(result.texSheetUv, _BaseMap, _UV0Speed.xy);
@@ -219,11 +219,11 @@ inline VaryingsUv GetVaryingsUv(float4 uv, float particleID)
 
 inline float4 GetVertexOutputColor(float4 vertexColor)
 {
-	// Костыль из PF1
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ PF1
 	#if !defined(UNITY_COLORSPACE_GAMMA)
-		// цвет партиклов не нужно конвертировать,
-		// но при этом должна быть выключена галка Apply Active Color Space в ParticleSystem.Renderer
-		// тогда цвет всегда будет в гамме независимо от текущего Color Space проекта
+		// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+		// пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ Apply Active Color Space пїЅ ParticleSystem.Renderer
+		// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Color Space пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		//input.color.rgb = LinearToSRGB(input.color.rgb);
 		_BaseColor.rgb = LinearToSRGB(_BaseColor.rgb);
 		//_HdrColorScale = LinearToSRGB(_HdrColorScale);
@@ -393,13 +393,13 @@ inline void InitializeStandardLitSurfaceData(SurfaceUv uv, float4 vertexColor, f
 	float3 unscaledAlbedo = albedoAlpha.rgb;
 	albedoAlpha *= float4(_HdrColorScale, _HdrColorScale, _HdrColorScale, 1);
 
-	// правильный кламп с учетом пропорций каналов
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	//float maxChannel = max(albedoAlpha.r, max(albedoAlpha.g, albedoAlpha.b));
 	//float clampFactor = saturate(_HdrColorClamp / maxChannel);
 	//albedoAlpha.rgb *= clampFactor;
 
 
-	// Обратный костыль из PF1
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ PF1
 	#if !defined(UNITY_COLORSPACE_GAMMA)
 		albedoAlpha.rgb = SRGBToLinear(albedoAlpha.rgb);
 		#if defined(_EMISSION) && !defined(_EMISSIONMAP)

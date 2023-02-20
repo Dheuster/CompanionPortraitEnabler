@@ -9,9 +9,9 @@ Shader "Hidden/Owlcat Render Pipeline/GaussianDepthOfField"
 
         #pragma target 3.5
 
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Filtering.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Filtering.hlsl"
         #include "../../ShaderLibrary/Core.hlsl"
         #include "Common.hlsl"
 

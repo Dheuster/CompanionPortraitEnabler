@@ -4,7 +4,7 @@ Shader "Hidden/Owlcat Render Pipeline/LutBuilderLdr"
 
         #include "../../ShaderLibrary/Core.hlsl"
         #include "Common.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
 
         float4 _Lut_Params;         // x: lut_height, y: 0.5 / lut_width, z: 0.5 / lut_height, w: lut_height / lut_height - 1
         float4 _ColorBalance;       // xyz: LMS coeffs, w: unused

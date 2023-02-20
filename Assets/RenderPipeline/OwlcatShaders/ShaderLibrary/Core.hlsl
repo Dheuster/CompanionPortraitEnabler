@@ -1,9 +1,9 @@
 #ifndef OWLCAT_PIPELINE_CORE_INCLUDED
 #define OWLCAT_PIPELINE_CORE_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Packing.hlsl"
 //#include "Packages/com.unity.render-pipelines.lightweight/ShaderLibrary/Version.hlsl"
 #include "Input.hlsl"
 
@@ -175,9 +175,9 @@ struct DepthGradients
     float4 Dy;
 };
 
-// написано по статье http://www.humus.name/index.php?page=3D&ID=84
-// модифицировано по статье https://www.slideshare.net/philiphammer/dissecting-the-rendering-of-the-surge
-// во второй ссылке неправильный паттерн семлирования (см. http://wojtsterna.blogspot.com/2018/02/directx-11-hlsl-gatherred.html)
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ http://www.humus.name/index.php?page=3D&ID=84
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ https://www.slideshare.net/philiphammer/dissecting-the-rendering-of-the-surge
+// пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ. http://wojtsterna.blogspot.com/2018/02/directx-11-hlsl-gatherred.html)
 // Sample 2 quads
 //		+------+------+
 //		|      |      |
@@ -210,7 +210,7 @@ DepthGradients GetDepthGradients(float2 positionCS)
 	float absDy1 = abs(dy1 - result.Depth);
 	float minDx, minDy;
 
-    // выбираем пиксель с меньшим перепадом глубины по оси X
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ X
     if (absDx0 < absDx1)
 	{
         result.Dx = float4(positionCS.xy + float2(-1.0f, 0.0f), dx0, 1);
@@ -222,15 +222,15 @@ DepthGradients GetDepthGradients(float2 positionCS)
 		minDx = absDx1;
 	}
 
-    // если перепад глубины между соседними (НЕ центральным) пикселями меньше выбранного
-    // это значит что центральный пиксель окружен с обеих сторон большими перепадам,
-    // значит соседние пиксели нельзя использовать для градиента, поэтому оставляем центральный
+    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ) пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	if (abs(dx0 - dx1) < minDx)
 	{
 		result.Dx.z = result.Depth;
 	}
 
-    // выбираем пиксель с меньшим перепадом глубины по оси Y
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ Y
     if (absDy0 < absDy1)
 	{
         result.Dy = float4(positionCS.xy + float2(0.0f, -1.0f), dy0, 1);
@@ -242,9 +242,9 @@ DepthGradients GetDepthGradients(float2 positionCS)
 		minDy = absDy1;
 	}
 
-    // если перепад глубины между соседними (НЕ центральным) пикселями меньше выбранного
-    // это значит что центральный пиксель окружен с обеих сторон большими перепадам,
-    // значит соседние пиксели нельзя использовать для градиента, поэтому оставляем центральный
+    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ) пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ,
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	if (abs(dy0 - dy1) < minDy)
 	{
 		result.Dy.z = result.Depth;
@@ -419,12 +419,12 @@ float3 ReconstructPositionFromLinearDepth(float3 cameraRay, float3 cameraPos, fl
 	float3 result = 0;
 	if (unity_OrthoParams.w > 0)
 	{
-		// при ортогональной проекции луч берет начало в позиции камеры по глубине, но сдвинут от этой точки на cameraRay.xy
+		// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ cameraRay.xy
 		result = cameraPos + cameraRay + _CamBasisFront * linearDepth;
 	}
 	else
 	{
-		// при перспективной матрице луч берет начало в точке камеры
+		// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		result = cameraPos + cameraRay * linearDepth;
 	}
 
@@ -487,7 +487,7 @@ float3 BlendNormalsUDN(float3 n1, float3 n2)
 }
 
 // https://blog.selfshadow.com/publications/blending-in-detail/
-// Модифицировано под WS http://www.gamedev.net/topic/678043-how-to-blend-world-space-normals/?view=findpost&p=5287707
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ WS http://www.gamedev.net/topic/678043-how-to-blend-world-space-normals/?view=findpost&p=5287707
 // u - detail normal
 // t - base normal
 // s - vertex normal
@@ -521,13 +521,13 @@ void FinalColorOutput(inout float4 color)
 
 float PackShadowmask(float4 shadowmask)
 {
-	/*// пакуем 2 канала по 4 бита в fixed (8 байт)
+	/*// пїЅпїЅпїЅпїЅпїЅпїЅ 2 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 4 пїЅпїЅпїЅпїЅ пїЅ fixed (8 пїЅпїЅпїЅпїЅ)
 	// 2^4 = 16 [0...15]
 	shadowmask.xy *= 15;
 	uint packedBits = (uint)shadowmask.x | ((uint)shadowmask.y << 4u);
 	return PackByte(packedBits);*/
 
-	// пакуем 4 канала по 4 байта в short (16 байт)
+	// пїЅпїЅпїЅпїЅпїЅпїЅ 4 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ 4 пїЅпїЅпїЅпїЅпїЅ пїЅ short (16 пїЅпїЅпїЅпїЅ)
 	// 2^4 = 16 [0...15]
 	shadowmask.xyzw *= 15;
 	uint packedBits = (uint)shadowmask.x | ((uint)shadowmask.y << 4u) | ((uint)shadowmask.z << 8u) | ((uint)shadowmask.w << 12u);
@@ -536,13 +536,13 @@ float PackShadowmask(float4 shadowmask)
 
 float4 UnpackShadowmask(float packedShadowmask)
 {
-	/*// распаковываем 2 канала
-	// packedShadowmask - это 8-битный float [0...1] в котором запакована shadowmask (см. PackShadowmask)
+	/*// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 2 пїЅпїЅпїЅпїЅпїЅпїЅ
+	// packedShadowmask - пїЅпїЅпїЅ 8-пїЅпїЅпїЅпїЅпїЅпїЅ float [0...1] пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ shadowmask (пїЅпїЅ. PackShadowmask)
 	uint packedBits = UnpackByte(packedShadowmask);
 	return float4((packedBits & 15u) / 15.0f, (packedBits >> 4u) / 15.0f, 1, 1);*/
 
-	// распаковываем 4 канала
-	// packedShadowmask - это 16 битный float [0...1] в котором запакована shadowmask (см. PackShadowmask)
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 4 пїЅпїЅпїЅпїЅпїЅпїЅ
+	// packedShadowmask - пїЅпїЅпїЅ 16 пїЅпїЅпїЅпїЅпїЅпїЅ float [0...1] пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ shadowmask (пїЅпїЅ. PackShadowmask)
 	uint packedBits = UnpackShort(packedShadowmask);
 	return float4((packedBits & 15u) / 15.0f, ((packedBits >> 4u) & 15u) / 15.0f, ((packedBits >> 8u) & 15u) / 15.0f, ((packedBits >> 12u) & 15u) / 15.0f);
 }

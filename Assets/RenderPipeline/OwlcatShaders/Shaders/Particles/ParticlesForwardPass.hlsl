@@ -1,7 +1,7 @@
 #ifndef OWLCAT_LIT_FORWARD_PASS_INCLUDED
 #define OWLCAT_LIT_FORWARD_PASS_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
 #include "ParticlesInput.hlsl"
 #include "../../ShaderLibrary/Lighting.hlsl"
 #include "../../ShaderLibrary/DistortionUtils.hlsl"
@@ -246,7 +246,7 @@ float4 ForwardLitFragment(Varyings input) : SV_Target
 		}
 
 		#if !defined(_TRANSPARENT_ON)
-			// ранний выход можно сделать, только если рисуем Opaque-геометрию
+			// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Opaque-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			if (fowFactor <= 0)
 			{
 				return float4(_FogOfWarColor.rgb, surfaceData.alpha);
@@ -310,7 +310,7 @@ float4 ForwardLitFragment(Varyings input) : SV_Target
 
 	FinalColorOutput(color);
 
-	// туман накладываем только на прозрачку, на opaque-геометрию туман наложится в пост-процессе
+	// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ opaque-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	#ifdef _TRANSPARENT_ON
 		float3 preFogColor = color.rgb;
 		color.rgb = MixFog(color.rgb, inputData.fogCoord);
@@ -322,11 +322,11 @@ float4 ForwardLitFragment(Varyings input) : SV_Target
 	#endif
 
 	#if defined(SOFT_PARTICLES)
-		// Костыль из PF1
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ PF1
 		color.a *= (softFactor);
 	#endif
 
-	// очень важно делать preMultiply после перевода в Gamma Space, чтобы получить результат как PF1
+	// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ preMultiply пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Gamma Space, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ PF1
 	#if defined(_ALPHAPREMULTIPLY_ON)
 		color.rgb *= color.a;
 	#endif

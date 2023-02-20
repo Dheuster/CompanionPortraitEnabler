@@ -2,7 +2,7 @@
 #define OWLCAT_META_PASS_INCLUDED
 
 #include "Lighting.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
 
 CBUFFER_START(UnityMetaPass)
 // x = use uv1 as raster position

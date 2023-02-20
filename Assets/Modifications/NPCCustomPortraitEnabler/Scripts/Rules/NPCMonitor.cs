@@ -60,7 +60,7 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 		 IUnitCalculateSkillPointsOnLevelupHandler, // HandleUnitCalculateSkillPointsOnLevelup
 		 ICompanionChangeHandler,                   // HandleRecruit, HandleUnrecruit
 		 ICorruptionLevelHandler,                   // HandleIncreaseCorruption, HandleClearCorruption
-		 IPartyHandler,                             // HandleAddCompanion, HandleCompanionActivated, HandleCompanionRemoved
+		 // IPartyHandler,                          // HandleAddCompanion, HandleCompanionActivated, HandleCompanionRemoved
 		 IPartyCombatHandler,                       // HandlePartyCombatStateChanged
 		 IAttributeDamageHandler,                   // HandleAttributeDamage
 		 IUnitGainFactHandler,                      // HandleUnitGainFact
@@ -159,6 +159,37 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 		}
 
 		// ------------------------------------------------------------------
+		// Relay Handlers
+		// ------------------------------------------------------------------
+		// These are events that NPCCustomPortraitEnablerMain subsrcibes
+		// to and relays to npc instances. Often times these include global
+		// events like Dialogue events where the main class can sort out
+		// who the event belongs to in one spot rather than every instance
+		// repeating that work. 
+		// ------------------------------------------------------------------
+
+		// Relayed from NPCCustomPortraitEnablerMain
+		public void OnCompanionAdded() // : IPartyHandler
+		{
+			logDebug($"OnCompanionAdded called on [{this.Name}]");
+			this.updateInParty();
+		}
+
+		// Relayed from NPCCustomPortraitEnablerMain
+		public void OnCompanionActivated() // : IPartyHandler
+		{
+			logDebug($"OnCompanionActivated called on [{this.Name}]");
+			// Do Stuff?
+		}
+
+		// Relayed from NPCCustomPortraitEnablerMain
+		public void OnCompanionRemoved(bool stayInGame) // : IPartyHandler
+		{
+			logDebug($"OnCompanionRemoved called on [{this.Name}] stayInGame [{stayInGame}]");
+			this.updateInParty();
+		}
+
+		// ------------------------------------------------------------------
 		// Event Handlers
 		// ------------------------------------------------------------------
 
@@ -209,6 +240,11 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
             {
 
 				// ProtoType: When dialogue kicks off, attempt to reload/reset portrait from disk (in case it has changed)
+				// TODO: Try (If we can get a handle to PortraitData - PortraitData should be cached by Main.CacheLookup
+				//    PortraitData.SmallPortraitHandle.Load()
+				//    PortraitData.HalfPortraitHandle.Load()
+				//    PortraitData.FullPortraitHandle.Load()
+
 				logDebug($"HandleDialogStarted: Attempting Portrait Reload");
 				this.npc.UISettings.SetPortrait(this.npc.Portrait);
 				this.npc.Portrait.EnsureImages();
@@ -380,37 +416,6 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 			// be player only, but I will share the value with NPCs...
 		}
 
-		public void HandleAddCompanion(UnitEntityData companion) // : IPartyHandler
-		{
-			if (null == companion) return;
-			logDebug($"[{this.Name}] HandleAddCompanion for [{companion.Descriptor.CharacterName}]");
-			if (companion != this.npc) return;
-			logDebug($"[{this.Name}] - Add detected");
-			this.updateInParty();
-
-			// Do Stuff?
-		}
-
-		public void HandleCompanionActivated(UnitEntityData companion) // : IPartyHandler
-		{
-			if (null == companion) return;
-			logDebug($"[{this.Name}] HandleCompanionActivated for [{companion.Descriptor.CharacterName}]");
-			if (companion != this.npc) return;
-			logDebug($"[{this.Name}] - Activation Detected");
-
-			// Do Stuff?
-		}
-
-		public void HandleCompanionRemoved(UnitEntityData companion, bool stayInGame) // : IPartyHandler
-		{
-			if (null == companion) return;
-			logDebug($"[{this.Name}] HandleCompanionRemoved for [{companion.Descriptor.CharacterName}] stayInGame [{stayInGame}]");
-			if (companion != this.npc) return;
-			logDebug($"[{this.Name}] - Removal Detected");
-			this.updateInParty();
-
-			// Do Stuff?
-		}
 
 
 		public void HandlePartyCombatStateChanged(bool inCombat) // : IPartyCombatHandler

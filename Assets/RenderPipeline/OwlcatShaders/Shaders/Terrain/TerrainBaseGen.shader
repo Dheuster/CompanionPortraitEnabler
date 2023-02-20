@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Owlcat/TerrainBaseGen"
+Shader "Hidden/Owlcat/TerrainBaseGen"
 {
     Properties
     {

@@ -1,4 +1,4 @@
-﻿Shader "Owlcat/Lit"
+Shader "Owlcat/Lit"
 {
 	Properties
 	{

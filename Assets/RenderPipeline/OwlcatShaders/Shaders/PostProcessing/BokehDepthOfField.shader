@@ -7,8 +7,8 @@ Shader "Hidden/Owlcat Render Pipeline/BokehDepthOfField"
 
     HLSLINCLUDE
 
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
         #include "../../ShaderLibrary/Core.hlsl"
         #include "Common.hlsl"
 

@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Owlcat/ColorPyramid"
+Shader "Hidden/Owlcat/ColorPyramid"
 {
     SubShader
     {

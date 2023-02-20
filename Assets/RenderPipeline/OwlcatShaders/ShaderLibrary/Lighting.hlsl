@@ -1,9 +1,9 @@
-﻿#ifndef OWLCAT_LIGHTING_INCLUDED
+#ifndef OWLCAT_LIGHTING_INCLUDED
 #define OWLCAT_LIGHTING_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/EntityLighting.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/ImageBasedLighting.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/EntityLighting.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/ImageBasedLighting.hlsl"
 #include "Core.hlsl"
 #include "Shadows/Shadow.hlsl"
 

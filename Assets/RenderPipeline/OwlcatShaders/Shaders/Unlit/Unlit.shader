@@ -1,4 +1,4 @@
-﻿Shader "Owlcat/Unlit"
+Shader "Owlcat/Unlit"
 {
     Properties
     {

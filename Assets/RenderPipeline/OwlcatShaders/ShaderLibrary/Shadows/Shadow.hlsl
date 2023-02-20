@@ -2,7 +2,7 @@
 #define OWLCAT_SHADOW_INCLUDED
 
 #include "ShadowInput.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Shadow/ShadowSamplingTent.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Shadow/ShadowSamplingTent.hlsl"
 
 #if UNITY_REVERSED_Z
     #define BEYOND_SHADOW_FAR(shadowCoord) shadowCoord.z <= UNITY_RAW_FAR_CLIP_VALUE

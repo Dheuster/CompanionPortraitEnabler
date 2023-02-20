@@ -1,4 +1,4 @@
-﻿Shader "Owlcat/Water"
+Shader "Owlcat/Water"
 {
 	Properties
 	{

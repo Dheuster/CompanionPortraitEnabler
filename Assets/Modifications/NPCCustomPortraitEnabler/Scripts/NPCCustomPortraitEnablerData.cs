@@ -13,6 +13,5 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
 		public bool CreateIfMissing;
 		public string LastLoadTime;
 		public string SubDirectory;
-		public string PortraitsFolder;
 	}
 }

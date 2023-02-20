@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Owlcat/CopyDepth"
+Shader "Hidden/Owlcat/CopyDepth"
 {
     SubShader
     {
