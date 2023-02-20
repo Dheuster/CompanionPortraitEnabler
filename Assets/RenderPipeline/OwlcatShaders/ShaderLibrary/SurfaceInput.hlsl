@@ -2,8 +2,8 @@
 #define OWLCAT_INPUT_SURFACE_INCLUDED
 
 #include "Core.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Packing.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/CommonMaterial.hlsl"
 
 TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
 

@@ -71,7 +71,7 @@ float4 _GlossyEnvironmentColor;
 
 float4x4 _InvCameraViewProj;
 
-// Базис камеры в пространстве реконструкции
+// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 float3 _CamBasisUp;
 float3 _CamBasisSide;
 float3 _CamBasisFront;
@@ -143,13 +143,13 @@ CBUFFER_END
 
 #include "UnityInput.hlsl"
 
-// если включен INDIRECT_INSTANCING, выключаем INSTANCING_ON и переопределяем макросы из UnityInstancing.hlsl
+// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ INDIRECT_INSTANCING, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ INSTANCING_ON пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ UnityInstancing.hlsl
 #if defined(INDIRECT_INSTANCING)
     #ifdef INSTANCING_ON
         #undef INSTANCING_ON
     #endif
 #endif
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/UnityInstancing.hlsl"
 
 // redefine instanced built-in variables
 // before(!) SpaceTransforms.hlsl include
@@ -208,6 +208,6 @@ CBUFFER_END
     #define UNITY_ASSUME_UNIFORM_SCALING
 #endif
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/SpaceTransforms.hlsl"
 
 #endif // OWLCAT_INPUT_INCLUDED

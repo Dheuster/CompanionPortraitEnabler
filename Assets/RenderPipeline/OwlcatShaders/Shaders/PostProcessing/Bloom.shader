@@ -9,8 +9,8 @@ Shader "Hidden/Owlcat Render Pipeline/Bloom"
 
         #pragma multi_compile_local _ _USE_RGBM
 
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Filtering.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Filtering.hlsl"
         #include "../../ShaderLibrary/Core.hlsl"
         #include "Common.hlsl"
 

@@ -1,7 +1,7 @@
 #ifndef OWLCAT_LIT_FORWARD_PASS_INCLUDED
 #define OWLCAT_LIT_FORWARD_PASS_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
 #include "LitInput.hlsl"
 #include "../../ShaderLibrary/Lighting.hlsl"
 #include "../../ShaderLibrary/GPUSkinning.hlsl"
@@ -69,7 +69,7 @@ void InitializeInputData(Varyings input, float3 normalTS, out InputData inputDat
 			inputData.normalWS = input.normalWS;
 		#endif
 	#else
-		// нормали читаем из GBuffer`а
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ GBuffer`пїЅ
 		inputData.normalWS = DecodeNormal(LOAD_TEXTURE2D(_CameraNormalsRT, inputData.positionSS.xy).rgb);
 	#endif
 
@@ -82,7 +82,7 @@ void InitializeInputData(Varyings input, float3 normalTS, out InputData inputDat
 	#ifdef _TRANSPARENT_ON
 		SampleGI(input.giSampling, inputData.positionWS, inputData.normalWS, inputData.bakedGI, inputData.shadowMask);
 	#else
-		// Запеченное освещение читаем из GBuffer'а
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ GBuffer'пїЅ
 		inputData.bakedGI = LOAD_TEXTURE2D(_CameraBakedGIRT, inputData.positionSS.xy).rgb;
 		inputData.shadowMask = LOAD_TEXTURE2D(_CameraShadowmaskRT, inputData.positionSS.xy);
 	#endif
@@ -208,7 +208,7 @@ float4 ForwardLitFragment(Varyings input) : SV_Target
 		float fowFactor = GetFogOfWarFactor(inputData.positionWS);
 		//return lerp(_FogOfWarColor.rgb, float3(1,1,1), fowFactor).rgbb;
 		#if !defined(_TRANSPARENT_ON)
-			// ранний выход можно сделать, только если рисуем Opaque-геометрию
+			// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Opaque-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			if (fowFactor <= 0)
 			{
 				return float4(_FogOfWarColor.rgb, surfaceData.alpha);
@@ -227,7 +227,7 @@ float4 ForwardLitFragment(Varyings input) : SV_Target
 
 	Dissolve(input.uv.zw, surfaceData);
 
-	// _DistortionOffset - используется только в Particles.shader, поэтому здесь его зануляем
+	// _DistortionOffset - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Particles.shader, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     _DistortionOffset = 0;
 
 	#ifdef PASS_DISTORTION_VECTORS
@@ -261,14 +261,14 @@ float4 ForwardLitFragment(Varyings input) : SV_Target
 
 		FinalColorOutput(color);
 
-		// туман нужно миксовать после перевода в Gamma-space, потому что пост-процессный туман работает через аддитивный блендинг в гамме (т.е. его невозможно перевести в линеар)
-		// поэтому делаем все в гамме
-		// туман накладываем только на прозрачку, на opaque-геометрию туман наложится в пост-процессе
+		// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Gamma-space, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅ.пїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
+		// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ opaque-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		#ifdef _TRANSPARENT_ON
 			color.rgb = MixFog(color.rgb, inputData.fogCoord);
 		#endif
 
-		// FOW нужно делать ПОСЛЕ конверта в gamma-space, иначе будут артефакты в виде ступенчатого градиента
+		// FOW пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ gamma-space, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		#if defined(SUPPORT_FOG_OF_WAR) && defined(_TRANSPARENT_ON)
 			ApplyFogOfWarFactor(fowFactor, color.rgb);
 		#endif
@@ -284,7 +284,7 @@ float4 ForwardLitFragment(Varyings input) : SV_Target
 			color.rgb = GetVertexAttributeDebug(vertexColor, color.rgb);
 		#endif
 
-		// очень важно делать preMultiply после перевода в Gamma Space, чтобы получить результат как PF1
+		// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ preMultiply пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Gamma Space, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ PF1
 		#if defined(_ALPHAPREMULTIPLY_ON) && defined(_TRANSPARENT_ON)
 			color.rgb *= color.a;
 		#endif

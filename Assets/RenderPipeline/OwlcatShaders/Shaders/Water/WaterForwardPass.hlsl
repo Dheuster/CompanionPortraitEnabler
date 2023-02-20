@@ -1,7 +1,7 @@
 #ifndef OWLCAT_WATER_FORWARD_PASS_INCLUDED
 #define OWLCAT_WATER_FORWARD_PASS_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
 #include "WaterInput.hlsl"
 #include "../../ShaderLibrary/Lighting.hlsl"
 #include "../../ShaderLibrary/GPUSkinning.hlsl"
@@ -52,7 +52,7 @@ void InitializeInputData(Varyings input, float3 normalTS, out InputData inputDat
 			inputData.normalWS = input.normalWS;
 		#endif
 	#else
-		// нормали читаем из GBuffer`а
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ GBuffer`пїЅ
 		inputData.normalWS = DecodeNormal(LOAD_TEXTURE2D(_CameraNormalsRT, inputData.positionSS.xy).rgb);
 	#endif
 
@@ -65,7 +65,7 @@ void InitializeInputData(Varyings input, float3 normalTS, out InputData inputDat
 	#ifdef _TRANSPARENT_ON
 		SampleGI(input.giSampling, inputData.positionWS, inputData.normalWS, inputData.bakedGI, inputData.shadowMask);
 	#else
-		// Запеченное освещение читаем из GBuffer'а
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ GBuffer'пїЅ
 		inputData.bakedGI = LOAD_TEXTURE2D(_CameraBakedGIRT, inputData.positionSS.xy).rgb;
 		inputData.shadowMask = LOAD_TEXTURE2D(_CameraShadowmaskRT, inputData.positionSS.xy);
 	#endif
@@ -144,7 +144,7 @@ float4 ForwardLitFragment(Varyings input) : SV_Target
 		float fowFactor = GetFogOfWarFactor(inputData.positionWS);
 		//return lerp(_FogOfWarColor.rgb, float3(1,1,1), fowFactor).rgbb;
 		#if !defined(_TRANSPARENT_ON)
-			// ранний выход можно сделать, только если рисуем Opaque-геометрию
+			// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ Opaque-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			if (fowFactor <= 0)
 			{
 				return float4(_FogOfWarColor.rgb, surfaceData.alpha);
@@ -179,12 +179,12 @@ float4 ForwardLitFragment(Varyings input) : SV_Target
 
     FinalColorOutput(color);
 
-	// туман нужно миксовать после перевода в Gamma-space, потому что пост-процессный туман работает через аддитивный блендинг в гамме (т.е. его невозможно перевести в линеар)
-	// поэтому делаем все в гамме
-    // TODO: в дисторшн текстуре уже наложен туман, поэтому степень наложения тумана нужно как-то уменьшать в зависимости от дисторшна
+	// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Gamma-space, пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ-пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ (пїЅ.пїЅ. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
+    // TODO: пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ-пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	color.rgb = MixFog(color.rgb, inputData.fogCoord);
 
-	// FOW нужно делать ПОСЛЕ конверта в gamma-space, иначе будут артефакты в виде ступенчатого градиента
+	// FOW пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ gamma-space, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     #if defined(SUPPORT_FOG_OF_WAR) && defined(_TRANSPARENT_ON)
 		ApplyFogOfWarFactor(fowFactor, color.rgb);
 	#endif

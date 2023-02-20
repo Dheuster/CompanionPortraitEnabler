@@ -1,9 +1,9 @@
 #ifndef OWLCAT_TERRAIN_COMMON_INCLUDED
 #define OWLCAT_TERRAIN_COMMON_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Packing.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/CommonMaterial.hlsl"
 
 #if defined(UNITY_INSTANCING_ENABLED) && defined(_TERRAIN_INSTANCED_PERPIXEL_NORMAL)
     #define ENABLE_TERRAIN_PERPIXEL_NORMAL

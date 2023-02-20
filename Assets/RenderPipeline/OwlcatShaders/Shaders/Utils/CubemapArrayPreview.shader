@@ -1,4 +1,4 @@
-﻿Shader "Owlcat/Utils/CubemapArrayPreview"
+Shader "Owlcat/Utils/CubemapArrayPreview"
 {
     SubShader
     {
@@ -12,7 +12,7 @@
             #pragma fragment frag
 			#pragma target 4.5
 
-			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+			#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
 			#include "../../ShaderLibrary/Input.hlsl"
 			#include "../../ShaderLibrary/Core.hlsl"
 

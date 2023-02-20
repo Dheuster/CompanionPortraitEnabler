@@ -1,9 +1,9 @@
 #ifndef OWLCAT_DECAL_INPUT_INCLUDED
 #define OWLCAT_DECAL_INPUT_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Packing.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/CommonMaterial.hlsl"
 
 TEXTURE2D(_MainTex1); SAMPLER(sampler_MainTex1);
 TEXTURE2D(_Noise0Tex); SAMPLER(sampler_Noise0Tex);
@@ -11,10 +11,10 @@ TEXTURE2D(_Noise1Tex); SAMPLER(sampler_Noise1Tex);
 TEXTURE2D(_ColorAlphaRamp); SAMPLER(sampler_ColorAlphaRamp);
 
 //#ifdef DEFERRED_ON
-//	// Судя по документации и как это сделано в HDRP (DecalNormalBuffer.shader)
-//	// Обычные SetRenderTarget и SetRandomWriteTarget имеют сквозной индекс
-//	// Т.к. мы для декального GBuffer'а используем _CameraAlbedoRT, _CameraColorRT (для emission), т.е. всего 2 RT
-//	// То подключаем _CameraNormalsUAV в регистр с индексом u2 (0 и 1 заняты _CameraAlbedoRT и _CameraColorRT соответственно)
+//	// пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ HDRP (DecalNormalBuffer.shader)
+//	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ SetRenderTarget пїЅ SetRandomWriteTarget пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+//	// пїЅ.пїЅ. пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ GBuffer'пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ _CameraAlbedoRT, _CameraColorRT (пїЅпїЅпїЅ emission), пїЅ.пїЅ. пїЅпїЅпїЅпїЅпїЅ 2 RT
+//	// пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ _CameraNormalsUAV пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ u2 (0 пїЅ 1 пїЅпїЅпїЅпїЅпїЅпїЅ _CameraAlbedoRT пїЅ _CameraColorRT пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 //	// https://docs.unity3d.com/ScriptReference/Graphics.SetRandomWriteTarget.html
 //	#if defined(PLATFORM_NEEDS_UNORM_UAV_SPECIFIER) && defined(PLATFORM_SUPPORTS_EXPLICIT_BINDING)
 //		RW_TEXTURE2D(unorm float4, _CameraAlbedoUAV) : register(u1);

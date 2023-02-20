@@ -1,9 +1,9 @@
 #ifndef OWLCAT_LIT_INPUT_INCLUDED
 #define OWLCAT_LIT_INPUT_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Packing.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/CommonMaterial.hlsl"
 
 CBUFFER_START(UnityPerMaterial)
 float4 _BaseMap_ST;

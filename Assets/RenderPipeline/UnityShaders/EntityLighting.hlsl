@@ -1,7 +1,7 @@
 #ifndef UNITY_ENTITY_LIGHTING_INCLUDED
 #define UNITY_ENTITY_LIGHTING_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
 
 #define LIGHTMAP_RGBM_MAX_GAMMA     real(5.0)       // NB: Must match value in RGBMRanges.h
 #define LIGHTMAP_RGBM_MAX_LINEAR    real(34.493242) // LIGHTMAP_RGBM_MAX_GAMMA ^ 2.2
