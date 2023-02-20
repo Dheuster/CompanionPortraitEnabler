@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Owlcat/Fog"
+Shader "Hidden/Owlcat/Fog"
 {
     SubShader
     {
@@ -17,7 +17,7 @@
 
 				#define POST_PROCESS_FOG
 
-				#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+				#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
 				#include "../../ShaderLibrary/Input.hlsl"
 				#include "../../ShaderLibrary/Core.hlsl"
 

@@ -1,11 +1,11 @@
 #ifndef UNITY_IMAGE_BASED_LIGHTING_INCLUDED
 #define UNITY_IMAGE_BASED_LIGHTING_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonLighting.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/BSDF.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Random.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Sampling/Sampling.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/CommonLighting.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/CommonMaterial.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/BSDF.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Random.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Sampling/Sampling.hlsl"
 
 #ifndef UNITY_SPECCUBE_LOD_STEPS
     // This is actuall the last mip index, we generate 7 mips of convolution

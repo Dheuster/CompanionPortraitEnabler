@@ -1,8 +1,8 @@
 #ifndef OWLCAT_DEBUG_ADDITIONAL_PASS_INCLUDED
 #define OWLCAT_DEBUG_ADDITIONAL_PASS_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Packing.hlsl"
 
 #include "DebugInput.hlsl"
 #include "../ShaderLibrary/Input.hlsl"

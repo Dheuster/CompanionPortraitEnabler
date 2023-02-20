@@ -24,7 +24,7 @@ Shader "Hidden/Owlcat/FinalBlit"
 
             #include "../../ShaderLibrary/Core.hlsl"
             #ifdef _LINEAR_TO_SRGB_CONVERSION
-            #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+            #include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
             #endif
 
             #define NAN_COLOR half3(0.0, 0.0, 0.0)

@@ -7,8 +7,8 @@ Shader "Hidden/Owlcat Render Pipeline/CameraMotionBlur"
 
     HLSLINCLUDE
 
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Random.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+        #include "Assets/RenderPipeline/UnityShaders/Random.hlsl"
         #include "../../ShaderLibrary/Core.hlsl"
         #include "Common.hlsl"
 

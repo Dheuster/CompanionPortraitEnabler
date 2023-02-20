@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Owlcat/Render Pipeline/RadialBlur"
+Shader "Hidden/Owlcat/Render Pipeline/RadialBlur"
 {
 	Properties
 	{

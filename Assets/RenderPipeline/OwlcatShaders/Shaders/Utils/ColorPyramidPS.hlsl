@@ -1,4 +1,4 @@
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
 
 TEXTURE2D_HALF(_Source);
 SamplerState sampler_LinearClamp;

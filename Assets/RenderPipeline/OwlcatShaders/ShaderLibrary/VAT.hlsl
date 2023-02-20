@@ -3,7 +3,7 @@
 
 #ifdef VAT_ENABLED
 
-    // Здесь смесь из шейдеров от Houdini и keijiro https://github.com/keijiro/HdrpVatExample
+    // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ Houdini пїЅ keijiro https://github.com/keijiro/HdrpVatExample
 
     TEXTURE2D(_PosVatMap);
     TEXTURE2D(_RotVatMap);

@@ -1,4 +1,4 @@
-﻿Shader "Owlcat/Particles"
+Shader "Owlcat/Particles"
 {
     Properties
     {

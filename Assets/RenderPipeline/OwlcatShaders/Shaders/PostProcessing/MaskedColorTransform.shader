@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Owlcat/Render Pipeline/MaskedColorTransform"
+Shader "Hidden/Owlcat/Render Pipeline/MaskedColorTransform"
 {
 	Properties
 	{

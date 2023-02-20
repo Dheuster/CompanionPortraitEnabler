@@ -1,7 +1,7 @@
 #ifndef OWLCAT_PARTICLES_GBUFFER_PASS_INCLUDED
 #define OWLCAT_PARTICLES_GBUFFER_PASS_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Color.hlsl"
 #include "ParticlesInput.hlsl"
 #include "../../Lighting/DeferredData.cs.hlsl"
 #include "../../ShaderLibrary/GBufferUtils.hlsl"

@@ -1,9 +1,9 @@
 #ifndef OWLCAT_WATER_INPUT_INCLUDED
 #define OWLCAT_WATER_INPUT_INCLUDED
 
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Packing.hlsl"
-#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/Packing.hlsl"
+#include "Assets/RenderPipeline/UnityShaders/CommonMaterial.hlsl"
 
 #include "../../ShaderLibrary/Input.hlsl"
 #include "../../ShaderLibrary/Core.hlsl"
@@ -152,9 +152,9 @@ void GetTap(float3 node, out float2x2 rot, out float3 hashAndWeight, out float2 
     //rot = float2x2(cos(ang), sin(ang), -sin(ang), cos(ang));
 	float2 normVel = normalize(vel);
 
-	// здесь зацикливаем UV на 1000 сек (~20 мин.), чтобы в UV не накапливались слишком больших значений
-	// это приводит к неправильной фильтрации текстур
-	// TODO: придумать алгоритм, при котором не будет зацикливаний или скачок между циклами будет незаметен
+	// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ UV пїЅпїЅ 1000 пїЅпїЅпїЅ (~20 пїЅпїЅпїЅ.), пїЅпїЅпїЅпїЅпїЅ пїЅ UV пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	// TODO: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	vel = vel * _FlowSpeed.xy * (_Time.yy % 1000.0);
 
 	float ang = 0;
@@ -298,7 +298,7 @@ inline float4 InitializeStandardLitSurfaceData(float4 uv, float4 positionCS, out
 
     
     _Distortion *= expDepthDiff;
-    // _DistortionOffset - используется только в Particles.shader, поэтому здесь его зануляем
+    // _DistortionOffset - пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ Particles.shader, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     _DistortionOffset = 0;
     float4 distortion = GetDistortion(positionCS.xy, outSurfaceData.normalTS, outSurfaceData.translucency.r, positionCS.w);
 

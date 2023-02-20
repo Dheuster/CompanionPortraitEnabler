@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Owlcat/ScreenSpaceCloudShadows"
+Shader "Hidden/Owlcat/ScreenSpaceCloudShadows"
 {
     SubShader
     {
@@ -17,7 +17,7 @@
 				#pragma target 4.5
 				#pragma only_renderers d3d11 ps4 xboxone vulkan metal switch
 
-				#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+				#include "Assets/RenderPipeline/UnityShaders/Common.hlsl"
 				#include "../../ShaderLibrary/Input.hlsl"
 				#include "../../ShaderLibrary/Core.hlsl"
 
