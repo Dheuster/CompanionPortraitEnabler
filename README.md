@@ -1,15 +1,15 @@
 Build Setup Instructions:
 ===============
-   These directions are posted at: https://github.com/Dheuster/NPCCustomPortraitEnabler. Note that these directions are not for installation and usage of the mod in-game. They are for setting up the build environment to make use of the mod's source code (To further enhance it, etc..)
+   These directions are posted at: https://github.com/Dheuster/CompanionPortraitEnabler. Note that these directions are not for installation and usage of the mod in-game. They are for setting up the build environment to make use of the mod's source code (To further enhance it, etc..)
 
-1. Clone NPCCustomPortraitEnabler:
+1. Clone CompanionPortraitEnabler:
 
    This mod is managed with Git, so if you do not have it, you will need to install git. I recommend [Git for Windows](http://www.gitforwindows.org). I also recommend [TortoiseGit](http://www.tortoisegit.org) (Install after git).
 
    * **Via TortoiseGit** : Create a folder where you want the mod to live, right click the background and select _**Git Clone**_ . In the url field of the window that pops up, enter: 
 
    ```
-       https://github.com/Dheuster/NPCCustomPortraitEnabler.git
+       https://github.com/Dheuster/CompanionPortraitEnabler.git
    ```
 
       - Press _**OK**_ and then _**Close**_
@@ -18,7 +18,7 @@ Build Setup Instructions:
    * **Via Git command line**: Use "cd" to change to the directory you want the source code to live, then type:
       
    ```
-      git clone https://github.com/Dheuster/NPCCustomPortraitEnabler.git
+      git clone https://github.com/Dheuster/CompanionPortraitEnabler.git
    ```
    
 
@@ -49,7 +49,7 @@ Build Setup Instructions:
        - After Creating an account it will likely attempt to download the latest Unity Editor (Note the year in the download). Select the option to choose another version and point it to the one you downloaded above. IE: **"C:\Program Files\Unity\Editor\Unity.exe**
        - It will prompt you to get a license and ask you to agree to the terms of service. Once you agree, You can close Unity Hub and run Unity 2019.4.26f.1 using the Start Menu.
    * Open the project associated with this git clone project.
-       - (From Unity) Open ->  Find and open the "NPCCustomPortraitEnabler" directory. You should see the Assets folder when you click Open
+       - (From Unity) Open ->  Find and open the "CompanionPortraitEnabler" directory. You should see the Assets folder when you click Open
        - A Warning will likely pop up. Scroll down to the "Installs" Area and check the radio box next to 2019.4.26f1
        - Click _**Open with 2019.4.26f1_**
        - When it prompts you to change editor version, select _**Change Version**_
@@ -67,8 +67,8 @@ Build Setup Instructions:
    - File -> Exit and Then Re-Open the project
 7. Upon restart, use **Modification Tools -> Build**
    - You will be prompted for which project to build
-   - Select NPCCustomPortraitEnabler. 
-8. The generated build product can be found under the "build" directory (Where-ever you git cloned the project). It will be named NPCCustomPortraitEnabler.zip. Next, the zip needs to be installed into the games modifications folder.
+   - Select CompanionPortraitEnabler. 
+8. The generated build product can be found under the "build" directory (Where-ever you git cloned the project). It will be named CompanionPortraitEnabler.zip. Next, the zip needs to be installed into the games modifications folder.
 
 9. Start -> Windows System -> File Explorer 
 
@@ -107,18 +107,18 @@ Build Setup Instructions:
       - Paste the following:
       ```json5
           {
-              "EnabledModifications": ["NPCCustomPortraitEnabler"]
+              "EnabledModifications": ["CompanionPortraitEnabler"]
           }
       ```
       - Save the file 
 
 12. _(b)_ If you **do see** OwlcatModificationManagerSettings, update it:
    - Double click the file "OwlcatModificationManagerSettings" to edit
-   - Add "NPCCustomPortraitEnabler" to the list of enabled 
+   - Add "CompanionPortraitEnabler" to the list of enabled 
        modifications. It should look something like:
    ```json5
        {
-           "EnabledModifications": ["<MOD1>","<MOD2>","NPCCustomPortraitEnabler"]
+           "EnabledModifications": ["<MOD1>","<MOD2>","CompanionPortraitEnabler"]
        }
    ```
 
@@ -154,9 +154,9 @@ Build Setup Instructions:
 
 16. Install the mod:
 
-   You can either exctract the zip file to the Modifictions Folder you created above, or you can copy the NPCCustomPortraits folder created under the build directory over. The zip file is just a pre-archived version of that folder and its contents. 
+   You can either extract the zip file to the Modifictions Folder you created above, or you can copy the Companion Portraits folder created under the build directory over. The zip file is just a pre-archived version of that folder and its contents. 
  
-   Extract or Copy NPCCustomPortraitEnabler/build/NPCCustomPortraitEnabler 
+   Extract or Copy CompanionPortraitEnabler/build/CompanionPortraitEnabler 
 	
    -- to -- 
 
@@ -166,7 +166,7 @@ Build Setup Instructions:
 	
    ```
        > Modifications
-           > NPCCustomPortraitEnabler
+           > CompanionPortraitEnabler
        > Portraits
        > Saved Games
        > Screenshots
@@ -222,7 +222,7 @@ Testing and Development
 
    - Start Game
    - Exit Game
-   - Edit the generated "Modificiations/NPCCustomPortraitEnabler.json"
+   - Edit the generated "Modificiations/CompanionPortraitEnabler_Data.json"
    - Set debug to true
    - Set CreateDirectories to true
    - Now when you run the game, logDebug and logAlways methods within the mod code will output to: WOTR_CONFIG_DIR/GameLogFull.txt
