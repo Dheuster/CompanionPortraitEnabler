@@ -8,21 +8,21 @@ using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 using Kingmaker.UI.MVVM._VM.SaveLoad;
 
-namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Relay
+namespace OwlcatModification.Modifications.CompanionPortraitEnabler.Relay
 {
 	public class OnPartyChangeHandler : IPartyHandler
 	{
 		public void HandleAddCompanion(UnitEntityData companion)
 		{
-			NPCCustomPortraitEnablerMain.OnCompanionAdded(companion);
+			CompanionPortraitEnablerMain.OnCompanionAdded(companion);
 		}
 		public void HandleCompanionActivated(UnitEntityData companion) // : IPartyHandler
 		{
-			NPCCustomPortraitEnablerMain.OnCompanionActivated(companion);
+			CompanionPortraitEnablerMain.OnCompanionActivated(companion);
 		}
 		public void HandleCompanionRemoved(UnitEntityData companion, bool stayInGame) // : IPartyHandler
 		{
-			NPCCustomPortraitEnablerMain.OnCompanionRemoved(companion, stayInGame);
+			CompanionPortraitEnablerMain.OnCompanionRemoved(companion, stayInGame);
 		}
 		public void HandleCapitalModeChanged()
 		{

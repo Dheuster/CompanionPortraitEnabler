@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
+namespace OwlcatModification.Modifications.CompanionPortraitEnabler
 {
 	[Serializable]
 	public class ConfigData

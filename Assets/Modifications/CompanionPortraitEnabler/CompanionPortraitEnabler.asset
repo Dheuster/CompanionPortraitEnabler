@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 99c27a98d022a8b499d4a50de5012fad, type: 3}
-  m_Name: NPCCustomPortraitEnabler
+  m_Name: CompanionPortraitEnabler
   m_EditorClassIdentifier: 
   Manifest:
-    UniqueName: NPCCustomPortraitEnabler
+    UniqueName: CompanionPortraitEnabler
     Version: 1.0.0
-    DisplayName: NPC Custom Portrait Enabler
-    Description: Enables users to override the portraits of the games built in Non-Playable
-      travelling companions.
+    DisplayName: Companion Portrait Enabler
+    Description: Enables users override of companion portraits
     Author: Dheuster
-    Repository: 
-    HomePage: 
+    Repository: https://github.com/Dheuster/CompanionPortraitEnabler
+    HomePage: https://github.com/Dheuster/CompanionPortraitEnabler/wiki/Mod-Config-Options
     Dependencies: []

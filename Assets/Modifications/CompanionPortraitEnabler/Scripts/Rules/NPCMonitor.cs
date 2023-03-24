@@ -30,7 +30,7 @@ using Kingmaker.AreaLogic.Cutscenes;     // Required for CutsceneControlledUnit 
 
 
 
-// using OwlcatModification.Modifications.NPCCustomPortraitEnabler.Utility;
+// using OwlcatModification.Modifications.CompanionPortraitEnabler.Utility;
 
 
 
@@ -43,7 +43,7 @@ using Kingmaker.AreaLogic.Cutscenes;     // Required for CutsceneControlledUnit 
 // a deletion safe call that supresses the Garbage Collector until the object has informed all
 // observers of the event. 
 
-namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
+namespace OwlcatModification.Modifications.CompanionPortraitEnabler.Rules
 {
 	// These are the attributes we track for each NPC. They provide the keys and values
 	// that rules can be based on
@@ -74,6 +74,8 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 		public static Kingmaker.Modding.OwlcatModification Modification { get; private set; }
 		public static LogChannel Logger => Modification.Logger;
 		public static Boolean m_logDebug = false;
+		public static string portraitsRoot = null;
+		public static string npcSubDir = null;
 		public static long EventFloodGate = 1001;
 
 		// ------------------------------------------------------------------
@@ -83,14 +85,15 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 		private long nextAcceptedEvent = 0;
 		private bool inParty = false;
 
-		protected RuleContext ruleContext;
+		protected List<Rule> allRules = null;
+		protected RuleContext ruleContext = null;
 
 		// ------------------------------------------------------------------
 		// Basics
 		// ------------------------------------------------------------------
 		public string Name               = "";
-		public string currentRule        = "Default";
-		public string portraitName       = "Default";
+		public Rule   currentRule        = null;
+		public string portraitPath       = "Default";
 		public string portraitFileLarge  = "Default";
 		public string portraitFileMedium = "Default";
 		public string portraitFileSmall  = "Default";
@@ -98,40 +101,115 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 		// ------------------------------------------------------------------
 		// Constructor
 		// ------------------------------------------------------------------
-		public NPCMonitor(UnitEntityData unit, Kingmaker.Modding.OwlcatModification modification, Boolean debug = false)
+		public NPCMonitor(UnitEntityData unit, Kingmaker.Modding.OwlcatModification modification, string portraitsRoot, string npcSubDir, Boolean debug = false)
 		{
 			if (null == NPCMonitor.Modification)
 			{
 				NPCMonitor.Modification = modification;
+				NPCMonitor.portraitsRoot = portraitsRoot;
+				NPCMonitor.npcSubDir = npcSubDir;
 				NPCMonitor.m_logDebug = debug;
+				RuleFactory.setup(modification, debug);
 			}
 			this.npc = unit;
 			this.Name = this.npc.CharacterName;
 
-			if (null != this.npc.UISettings.PortraitBlueprintRaw)
+			string portraitName = null;
+			BlueprintPortrait blueprintPortrait = npc.UISettings.PortraitBlueprint;
+			if (null == blueprintPortrait)
 			{
-				// this.portraitName = this.npc.UISettings.PortraitBlueprintRaw.ToString();
-				this.portraitName = (this.npc.UISettings.PortraitBlueprintRaw.Data.m_PortraitImage as WeakResourceLink<Sprite>).AssetId;
+				// This is the one that normally works...
+				blueprintPortrait = npc.UISettings.Owner.Blueprint.PortraitSafe;
 			}
-			else if (null != this.npc.UISettings.CustomPortraitRaw)
-			{
-				this.portraitName = this.npc.UISettings.CustomPortraitRaw.CustomId;
-			}
+			if (null != blueprintPortrait)
+            {
+				portraitName = blueprintPortrait.name ?? blueprintPortrait.ToString();
+            }
 			else
-			{
-				logDebug($"[{this.Name}] PortraitBlueprint and CustomPortrait are null");
+            {
+				if (null != this.npc.UISettings.PortraitBlueprintRaw)
+				{
+					// this.portraitPath = this.npc.UISettings.PortraitBlueprintRaw.ToString();
+					portraitName = (this.npc.UISettings.PortraitBlueprintRaw.Data.m_PortraitImage as WeakResourceLink<Sprite>).AssetId;
+				}
+				else if (null != this.npc.UISettings.CustomPortraitRaw)
+				{
+					portraitName = this.npc.UISettings.CustomPortraitRaw.CustomId;
+				}
+				else
+				{
+					logDebug($"[{this.Name}] PortraitBlueprint and CustomPortrait are null");
+				}
 			}
-			this.ruleContext = new RuleContext(modification, debug, this.npc);
-			if (this.updateInParty() || debug)
-			{
-				logAlways(this.ToString());
+			if (null != portraitName)
+            {
+                this.allRules = RuleFactory.findRules(portraitsRoot,npcSubDir,portraitName);
 			}
-
-			// Register For events on Construction:
-			EventBus.Subscribe(this);
+			if (null != this.allRules || debug)
+            {
+				this.ruleContext = new RuleContext(modification, debug, this.npc);
+				evaluateRules();
+				if (this.updateInParty() || debug)
+                {
+					logAlways(this.ToString());
+                }
+                EventBus.Subscribe(this);
+            }
 		}
 
-		// Called from NPCCustomPortraitEnablerMain.cs
+		public void evaluateRules()
+        {
+			logDebug("evaluateRules Called...");
+			if (null == this.allRules)
+            {
+				logDebug("No Rules...");
+				return;
+            }
+			foreach (Rule rule in this.allRules)
+            {
+				if (rule.ruleEvaluator.evaluate(this.ruleContext))
+                {
+					logDebug($"rule [{rule.portraitId}] evaluated to TRUE!");
+					enforcePortraitRule(rule);
+					return;
+                }
+				logDebug($"rule [{rule.portraitId}] evaluated to false: {rule}");
+            }
+			// All rules failed... 
+			enforceDefaultPortraitRule();
+        }
+
+		public void enforcePortraitRule(Rule rule)
+        {
+			// Is it changing?
+			if (this.currentRule != null && (this.currentRule.portraitId == rule.portraitId))
+            {
+				logAlways("Rule already active. Skipping...");
+				return;
+            }
+			this.currentRule = rule;
+			PortraitData portraitData = CompanionPortraitEnablerMain.UpdatedPortraitDataCache(
+				rule.resourceId, 
+				rule.portraitId
+			);
+			if (portraitData != null)
+			{		
+				npc.UISettings.SetPortrait(portraitData);
+			}
+        }
+
+		public void enforceDefaultPortraitRule()
+        {
+			if (this.currentRule == null)
+            {
+				logAlways("Default Rule already active. Skipping...");
+				return;
+			}
+			this.currentRule = null;
+
+        }
+
+		// Called from CompanionPortraitEnablerMain.cs
 		public void OnAreaActivated()
 		{
 			this.ruleContext.updateBase(this.npc);
@@ -161,28 +239,28 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 		// ------------------------------------------------------------------
 		// Relay Handlers
 		// ------------------------------------------------------------------
-		// These are events that NPCCustomPortraitEnablerMain subsrcibes
+		// These are events that CompanionPortraitEnablerMain subsrcibes
 		// to and relays to npc instances. Often times these include global
 		// events like Dialogue events where the main class can sort out
 		// who the event belongs to in one spot rather than every instance
 		// repeating that work. 
 		// ------------------------------------------------------------------
 
-		// Relayed from NPCCustomPortraitEnablerMain
+		// Relayed from CompanionPortraitEnablerMain
 		public void OnCompanionAdded() // : IPartyHandler
 		{
 			logDebug($"OnCompanionAdded called on [{this.Name}]");
 			this.updateInParty();
 		}
 
-		// Relayed from NPCCustomPortraitEnablerMain
+		// Relayed from CompanionPortraitEnablerMain
 		public void OnCompanionActivated() // : IPartyHandler
 		{
 			logDebug($"OnCompanionActivated called on [{this.Name}]");
 			// Do Stuff?
 		}
 
-		// Relayed from NPCCustomPortraitEnablerMain
+		// Relayed from CompanionPortraitEnablerMain
 		public void OnCompanionRemoved(bool stayInGame) // : IPartyHandler
 		{
 			logDebug($"OnCompanionRemoved called on [{this.Name}] stayInGame [{stayInGame}]");
@@ -236,6 +314,9 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 		//        specific dialog while that dialog in running. 
 		public void HandleDialogStarted(BlueprintDialog dialogMeta)
         {
+
+			// Consider for version 2.x
+			/*
 			if (null != dialogMeta)
             {
 
@@ -245,10 +326,10 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 				//    PortraitData.HalfPortraitHandle.Load()
 				//    PortraitData.FullPortraitHandle.Load()
 
-				logDebug($"HandleDialogStarted: Attempting Portrait Reload");
-				this.npc.UISettings.SetPortrait(this.npc.Portrait);
-				this.npc.Portrait.EnsureImages();
-				logDebug($"HandleDialogStarted: Flagging UI as needing Refresh");
+				// logDebug($"HandleDialogStarted: Attempting Portrait Reload");
+				// this.npc.UISettings.SetPortrait(this.npc.Portrait);
+				// this.npc.Portrait.EnsureImages();
+				// logDebug($"HandleDialogStarted: Flagging UI as needing Refresh");
 
 				if (NPCMonitor.m_logDebug)
                 {
@@ -267,10 +348,12 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
             {
 				logDebug("HandleDialogStarted: Dialog started but metadata was null");
             }
+			*/
 		}
 
 		public void HandleDialogFinished(BlueprintDialog dialogMeta, bool finishedWithoutCanceling) // IDialogFinishHandler
 		{
+			/*
 			if (null != dialogMeta)
             {
 				if (NPCMonitor.m_logDebug)
@@ -290,6 +373,7 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
             {
 				logDebug("HandleDialogFinished: Dialog ended but metadata was null");
             }
+			*/
 		}
 
 		public void HandleHealing(RuleHealDamage healMeta)
@@ -488,15 +572,20 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules
 		public override string ToString()
 		{
 			StringWriter sw = new StringWriter();
+			string currentRuleStr = "Default";
+			if (null != this.currentRule)
+            {
+				currentRuleStr = this.currentRule.portraitId;
+            }
 			sw.WriteLine("");
 			sw.WriteLine("------------------------------------------------------------------------------");
 			sw.WriteLine($"Companion [{this.Name}]");
 			sw.WriteLine("------------------------------------------------------------------------------");
-			sw.WriteLine($"currentRule        [{this.currentRule}]");
-			sw.WriteLine($"portraitName       [{this.portraitName}]");
+			sw.WriteLine($"portraitPath       [{this.portraitPath}]");
 			sw.WriteLine($"portraitFileLarge  [{this.portraitFileLarge}]");
 			sw.WriteLine($"portraitFileMedium [{this.portraitFileMedium}]");
 			sw.WriteLine($"portraitFileSmall  [{this.portraitFileSmall}]");
+			sw.WriteLine($"currentRule        [{currentRuleStr}]");
 			sw.WriteLine(ruleContext.ToString());
 			return sw.ToString();
 		}

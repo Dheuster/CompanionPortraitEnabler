@@ -6,13 +6,13 @@ using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 
-namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Relay
+namespace OwlcatModification.Modifications.CompanionPortraitEnabler.Relay
 {
 	public class OnWeatherChangedRelayHandler : IWeatherChangeHandler
 	{		
 		public void OnWeatherChange()
 		{
-			NPCCustomPortraitEnablerMain.OnWeatherChanged();
+			CompanionPortraitEnablerMain.OnWeatherChanged();
 		}
 	}
 }

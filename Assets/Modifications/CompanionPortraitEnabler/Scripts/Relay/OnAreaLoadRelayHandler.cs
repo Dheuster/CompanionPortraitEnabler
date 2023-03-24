@@ -6,13 +6,13 @@ using Kingmaker.UnitLogic;
 using Kingmaker.UnitLogic.Buffs.Blueprints;
 using Kingmaker.UnitLogic.Mechanics;
 
-namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Relay
+namespace OwlcatModification.Modifications.CompanionPortraitEnabler.Relay
 {
 	public class OnAreaLoadRelayHandler : IAreaActivationHandler
 	{		
 		public void OnAreaActivated()
 		{
-			NPCCustomPortraitEnablerMain.OnAreaActivated();
+			CompanionPortraitEnablerMain.OnAreaActivated();
 		}
 	}
 }

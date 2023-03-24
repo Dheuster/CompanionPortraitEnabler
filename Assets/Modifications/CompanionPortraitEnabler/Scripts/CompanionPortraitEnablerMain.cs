@@ -37,24 +37,31 @@ using Kingmaker.View.MapObjects;
 using Owlcat.Runtime.Core.Logging;
 
 // Mod Specific
-using OwlcatModification.Modifications.NPCCustomPortraitEnabler.Relay;
-using OwlcatModification.Modifications.NPCCustomPortraitEnabler.Rules;
-using OwlcatModification.Modifications.NPCCustomPortraitEnabler.Utility;
+using OwlcatModification.Modifications.CompanionPortraitEnabler.Relay;
+using OwlcatModification.Modifications.CompanionPortraitEnabler.Rules;
+using OwlcatModification.Modifications.CompanionPortraitEnabler.Utility;
 
 // 3rd Party
 using HarmonyLib;
 
-namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
+namespace OwlcatModification.Modifications.CompanionPortraitEnabler
 {
-	public static class NPCCustomPortraitEnablerMain
+	public static class CompanionPortraitEnablerMain
 	{
 		private const string  DefaultSubDirectory    = "πpcPortraits";
-		private const string  DefaultDocumentation   = "https://github.com/Dheuster/NPCCustomPortraitEnabler/wiki/Mod-Config-Options";
+		private const string  DefaultDocumentation   = "https://github.com/Dheuster/CompanionPortraitEnabler/wiki/Mod-Config-Options";
 
 		public static Kingmaker.Modding.OwlcatModification Modification { get; private set; }
 		public static bool IsEnabled { get; private set; } = true;
 		public static LogChannel Logger => Modification.Logger;
 		private static ConfigData Config = new ConfigData();
+
+		public static string ExpectedPortraitDir     = "Portraits";
+		public static string PersistentDataPath      = null;
+		public static string WrathDataPath           = null;
+		public static string PortraitsRoot           = null;
+		public static string DefaultNPCPortraitsRoot = null;
+		public static string CompanionPortraitsRoot  = null;
 
 		// private static Dictionary<string, BlueprintPortrait> CacheLookup = new Dictionary<string, BlueprintPortrait>();
 		private static Dictionary<string, PortraitData> CacheLookup = new Dictionary<string, PortraitData>();
@@ -89,39 +96,39 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
 
 			if (!IsEnabled)
 			{
-				logAlways("NPCCustomPortraitEnabler Disabled from Mod Manager");
+				logAlways("CompanionPortraitEnabler Disabled from Mod Manager");
 				return;
 			}
 
 			if (Config.Disabled)
 			{
-				logAlways("NPCCustomPortraitEnabler Disabled from json config.");
+				logAlways("CompanionPortraitEnabler Disabled from json config.");
 				IsEnabled = false;
 				return;
 			}
 
 			// --== Confirm all expected/needed paths exist ==--
-			string PersistentDataPath = Path.GetFullPath(Path.Combine(ApplicationPaths.persistentDataPath, "."));
-			if (!verifyPathExists(PersistentDataPath))
+			CompanionPortraitEnablerMain.PersistentDataPath = Path.GetFullPath(Path.Combine(ApplicationPaths.persistentDataPath, "."));
+			if (!verifyPathExists(CompanionPortraitEnablerMain.PersistentDataPath))
 			{
 				return;
 			}
 
-			string WrathDataPath = Path.GetFullPath(Path.Combine(ApplicationPaths.dataPath, "."));
-			if (!verifyPathExists(WrathDataPath))
+			CompanionPortraitEnablerMain.WrathDataPath = Path.GetFullPath(Path.Combine(ApplicationPaths.dataPath, "."));
+			if (!verifyPathExists(CompanionPortraitEnablerMain.WrathDataPath))
 			{
 				return;
 			}
 
 			// ( "Portraits" is internally enforced and non-optional )
-			string PortraitsRoot = Path.GetFullPath(Path.Combine(PersistentDataPath, "Portraits"));
-			if (!ensurePathExists(PortraitsRoot))
+			CompanionPortraitEnablerMain.PortraitsRoot = Path.GetFullPath(Path.Combine(PersistentDataPath, ExpectedPortraitDir));
+			if (!ensurePathExists(CompanionPortraitEnablerMain.PortraitsRoot))
 			{
 				return;
 			}
 
-			string DefaultNPCPortraitsRoot = Path.GetFullPath(Path.Combine(PortraitsRoot, DefaultSubDirectory));
-			if (!ensurePathExists(DefaultNPCPortraitsRoot))
+			CompanionPortraitEnablerMain.DefaultNPCPortraitsRoot = Path.GetFullPath(Path.Combine(CompanionPortraitEnablerMain.PortraitsRoot, DefaultSubDirectory));
+			if (!ensurePathExists(CompanionPortraitEnablerMain.DefaultNPCPortraitsRoot))
 			{
 				return;
 			}
@@ -129,19 +136,27 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
 			// Users may change the config subdir to use some npc portrait pak. So just in case
 			// DefaultSubDirectory and actual subDirectory dont match, check both:
 
-			string NPCCustomPortraitsRoot = Path.GetFullPath(Path.Combine(PortraitsRoot, Config.SubDirectory));
-			if (!ensurePathExists(NPCCustomPortraitsRoot))
+			CompanionPortraitEnablerMain.CompanionPortraitsRoot = Path.GetFullPath(Path.Combine(CompanionPortraitEnablerMain.PortraitsRoot, Config.SubDirectory));
+			if (!ensurePathExists(CompanionPortraitsRoot))
 			{
 				return;
 			}
 
-			createShortCuts(PersistentDataPath, WrathDataPath, NPCCustomPortraitsRoot);
+			createShortCuts(
+				CompanionPortraitEnablerMain.PersistentDataPath, 
+				CompanionPortraitEnablerMain.WrathDataPath, 
+				CompanionPortraitEnablerMain.CompanionPortraitsRoot
+			);
 
 			// TODO: Load Rules? (Will we pre-load or wait until resource is requested?)
-			// loadRules(NPCCustomPortraitsRoot)
-			Config.SubDirectory += Path.DirectorySeparatorChar;
+			// loadRules(CompanionPortraitsRoot)
+			
+			if (!Config.SubDirectory.EndsWith("" +  Path.DirectorySeparatorChar))
+			{ 
+				Config.SubDirectory += Path.DirectorySeparatorChar;
+			}
 
-			logDebug("NPCCustomPortraitEnabler Registering for Events.");
+			logDebug("CompanionPortraitEnabler Registering for Events.");
 			AddLoadResourceCallback();
 			modification.OnDrawGUI += OnGUI;
 			modification.IsEnabled += () => IsEnabled;
@@ -174,7 +189,7 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
             }
             if (String.IsNullOrEmpty(loadedData.LastLoadTime))
             {
-                logAlways("NPCCustomPortraitsEnabler - Initializing : Using first run defaults");
+                logAlways("CompanionPortraitsEnabler - Initializing : Using first run defaults");
                 Config.Disabled = false;
                 Config.LogDebug = false;
                 Config.CreateIfMissing = false;
@@ -232,6 +247,91 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
 			logDebug($"Save Complete");
 
 		}
+
+	    // Called from rule engine with rule indicates it is time to change a portrait...
+		public static PortraitData UpdatedPortraitDataCache(string resourceId, string portraitId)
+        {
+			if (null != resourceId)
+			{
+				try
+				{
+					PortraitData injectedData = null;
+					if (CacheLookup.ContainsKey(resourceId))
+					{
+						injectedData = CacheLookup[resourceId];
+					} 
+					else
+					{
+						CacheLookup[resourceId] = null;
+					}
+					if (injectedData != null)
+					{
+						logDebug($"Updating PortraitData for [{resourceId}]: Returning Cached CustomPortrait [{portraitId}]");
+					}
+					else
+					{
+						logDebug($"Creating PortraitData for [{resourceId}]: Returning Cached CustomPortrait [{portraitId}]");
+					}
+					if (CustomPortraitsManager.Instance.EnsureDirectory(portraitId, false))
+					{
+						logDebug($"Portrait folder found for [{portraitId}]. Confirming files...");
+						string small = CustomPortraitsManager.Instance.GetSmallPortraitPath(portraitId);
+						string medium = CustomPortraitsManager.Instance.GetMediumPortraitPath(portraitId);
+						string large = CustomPortraitsManager.Instance.GetBigPortraitPath(portraitId);
+						if (File.Exists(small) && File.Exists(medium) && File.Exists(large))
+						{
+							PortraitData portraitData = new PortraitData(portraitId);
+							if (null != portraitData.m_PortraitImage)
+							{
+								// Set AssetId to empty string so that PortraitData.m_portraitImage.Exists() fails in PreLoad() method
+								// Helps address any code that assumes companion portraits are not custom portraits.
+								portraitData.m_PortraitImage.AssetId = "";
+							}
+							CacheLookup[resourceId] = portraitData;
+							if (null != injectedData)
+                            {
+								injectedData = null;
+                            }
+							portraitData.SmallPortraitHandle.Load();
+							portraitData.HalfPortraitHandle.Load();
+							portraitData.FullPortraitHandle.Load();
+							return portraitData;
+						}
+						else
+						{
+							string missing = "";
+							if (!File.Exists(small))
+							{
+								missing += "Small.png ";
+							}
+							if (!File.Exists(medium))
+							{
+								missing += "Medium.png ";
+							}
+							if (!File.Exists(large))
+							{
+								missing += "Fulllength.png";
+							}
+							logDebug($"Error: [{portraitId}] - Files [{missing}] not found in [{CustomPortraitsManager.Instance.GetPortraitFolderPath(portraitId)}]");
+						}
+					}
+					else
+					{
+						logDebug($"Error: [{portraitId}] - Not found in Portraits folder");
+					}
+				}
+				catch (Exception ex)
+                {
+					logAlways($"Error: Exception processing portrait update for [{resourceId}]:", ex.ToString());
+                }
+			}
+			else
+            {
+				logAlways($"Error: resourceId is null!");
+            }
+			return null;
+		}
+
 
 		private static void AddLoadResourceCallback()
 		{
@@ -389,6 +489,30 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
 		// visual changes for example). 
 		public static void OnAreaActivated()
 		{
+			if (null != BlueprintRoot.Instance.CharGen.PortraitFolderName)
+            {
+				if (CompanionPortraitEnablerMain.ExpectedPortraitDir != BlueprintRoot.Instance.CharGen.PortraitFolderName)
+				{
+					CompanionPortraitEnablerMain.ExpectedPortraitDir = BlueprintRoot.Instance.CharGen.PortraitFolderName;
+
+					CompanionPortraitEnablerMain.PortraitsRoot = Path.GetFullPath(Path.Combine(
+						CompanionPortraitEnablerMain.PersistentDataPath, 
+						CompanionPortraitEnablerMain.ExpectedPortraitDir)
+					);
+					ensurePathExists(CompanionPortraitEnablerMain.PortraitsRoot);
+  					CompanionPortraitEnablerMain.DefaultNPCPortraitsRoot = Path.GetFullPath(Path.Combine(
+						CompanionPortraitEnablerMain.PortraitsRoot, 
+						DefaultSubDirectory)
+					);
+					ensurePathExists(CompanionPortraitEnablerMain.DefaultNPCPortraitsRoot);
+					CompanionPortraitEnablerMain.CompanionPortraitsRoot = Path.GetFullPath(Path.Combine(
+						CompanionPortraitEnablerMain.PortraitsRoot, 
+						Config.SubDirectory)
+					);
+					ensurePathExists(CompanionPortraitsRoot);
+				}
+			}
+
 			if (Config.LogDebug)
 			{
 				StringWriter sw = new StringWriter();
@@ -416,7 +540,13 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
 					}
 					else
 					{
-						MonitoredNPCs.Add(name, new NPCMonitor(unitEntityData, NPCCustomPortraitEnablerMain.Modification, NPCCustomPortraitEnablerMain.Config.LogDebug));
+						MonitoredNPCs.Add(name, 
+							new NPCMonitor(unitEntityData, 
+							    CompanionPortraitEnablerMain.Modification, 
+								CompanionPortraitEnablerMain.PortraitsRoot,
+								CompanionPortraitEnablerMain.Config.SubDirectory,
+								CompanionPortraitEnablerMain.Config.LogDebug)
+							);
 					}
 				}
 			}
@@ -441,7 +571,13 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
 			}
 			else
 			{
-				MonitoredNPCs.Add(name, new NPCMonitor(unitEntityData, NPCCustomPortraitEnablerMain.Modification, NPCCustomPortraitEnablerMain.Config.LogDebug));
+				MonitoredNPCs.Add(name, 
+					new NPCMonitor(unitEntityData, 
+						CompanionPortraitEnablerMain.Modification, 
+						CompanionPortraitEnablerMain.PortraitsRoot,
+						CompanionPortraitEnablerMain.Config.SubDirectory,
+						CompanionPortraitEnablerMain.Config.LogDebug)
+					);
 				MonitoredNPCs[name].OnCompanionAdded();
 			}
 			// May want Register/Unregister callback to subscribe/unsubscribe from events when NPCs are 
@@ -480,7 +616,13 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
 			}
 			else
 			{
-				MonitoredNPCs.Add(name, new NPCMonitor(unitEntityData, NPCCustomPortraitEnablerMain.Modification, NPCCustomPortraitEnablerMain.Config.LogDebug));
+				MonitoredNPCs.Add(name, 
+					new NPCMonitor(unitEntityData, 
+						CompanionPortraitEnablerMain.Modification, 
+						CompanionPortraitEnablerMain.PortraitsRoot,
+						CompanionPortraitEnablerMain.Config.SubDirectory,
+						CompanionPortraitEnablerMain.Config.LogDebug)
+					);
 				MonitoredNPCs[name].OnCompanionRemoved(stayInGame);
 			}
 			// May want Register/Unregister callback to subscribe/unsubscribe from events when NPCs are 
@@ -547,7 +689,7 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
             GUILayout.Button("OK");
         }
         
-        private static void createShortCuts(string PersistentDataPath, string WrathDataPath, string NPCCustomPortraitsRoot)
+        private static void createShortCuts(string PersistentDataPath, string WrathDataPath, string CompanionPortraitsRoot)
         {
             //--------------------------------------------------------------------------
             // - Under the games install directory, we create a shortcut called
@@ -567,7 +709,7 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
             ensureShortCut(owlcatGamesLinkPath, Path.GetFullPath(Path.Combine(PersistentDataPath, "..")), "Owlcat Games");
 
             string npcPortraitsLinkPath = Path.GetFullPath(Path.Combine(PersistentDataPath, "NPCPortraits.lnk"));
-            ensureShortCut(npcPortraitsLinkPath, NPCCustomPortraitsRoot, "NPCPortraits");
+            ensureShortCut(npcPortraitsLinkPath, CompanionPortraitsRoot, "NPCPortraits");
 
 		}
 
@@ -695,13 +837,13 @@ namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler
 			return false;
         }
 
-		private static void loadRules(string NPCCustomPortraitsRoot)
+		private static void loadRules(string CompanionPortraitsRoot)
         {
 			// -----------------------------------------------------------
 			// Pre-Scan and Load NPC Portrait Rules (TODO)
 			// -----------------------------------------------------------
 			
-			// if (Directory.Exists(NPCCustomPortraitsRoot))
+			// if (Directory.Exists(CompanionPortraitsRoot))
 			// {
 			//	  logDebug($"Path [{Application.persistentDataPath}/portraits/{Config.SubDirectory}] not found. Skippnig Rule Scan.");
 			//	  return;

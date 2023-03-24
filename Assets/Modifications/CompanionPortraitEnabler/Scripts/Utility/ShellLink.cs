@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 // using System.Windows.Forms;
 
-namespace OwlcatModification.Modifications.NPCCustomPortraitEnabler.Utility
+namespace OwlcatModification.Modifications.CompanionPortraitEnabler.Utility
 {
 	#region ShellLink Object
 	/// <summary>
